@@ -1,4 +1,4 @@
-# TRMNL Oura Ring Display
+# Oura Stats for TRMNL
 
 Display your [Oura Ring](https://ouraring.com) health data on a [TRMNL](https://usetrmnl.com) e-ink display.
 
