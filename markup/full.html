@@ -1,0 +1,65 @@
+<!-- TRMNL Oura Ring Dashboard — paste into your Private Plugin markup editor -->
+<!-- The platform wraps this in the appropriate view container automatically -->
+
+<div class="layout layout--col gap--distribute">
+
+  <!-- Top row: Sleep + Readiness -->
+  <div class="grid grid--cols-6 stretch-y">
+
+    <!-- SLEEP -->
+    <div class="col col--span-3 gap--small">
+      <span class="title title--small">SLEEP</span>
+      <span class="value value--xxlarge value--tnums">{{ sleep_score }}</span>
+      <div class="col gap--none">
+        <span class="label label--small">Total: {{ sleep_total_sleep }}</span>
+        <span class="label label--small">Deep: {{ sleep_deep_sleep }}</span>
+        <span class="label label--small">REM: {{ sleep_rem_sleep }}</span>
+      </div>
+    </div>
+
+    <!-- READINESS -->
+    <div class="col col--span-3 gap--small">
+      <span class="title title--small">READINESS</span>
+      <span class="value value--xxlarge value--tnums">{{ readiness_score }}</span>
+      <div class="col gap--none">
+        <span class="label label--small">HRV Balance: {{ readiness_hrv_balance }}</span>
+        <span class="label label--small">Temp: {{ readiness_temperature_deviation }}</span>
+        <span class="label label--small">Recovery: {{ readiness_recovery_index }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Bottom row: Activity + Heart Rate -->
+  <div class="grid grid--cols-6 stretch-y">
+
+    <!-- ACTIVITY -->
+    <div class="col col--span-3 gap--small">
+      <span class="title title--small">ACTIVITY</span>
+      <span class="value value--xxlarge value--tnums">{{ activity_score }}</span>
+      <div class="col gap--none">
+        <span class="label label--small">Steps: {{ activity_steps }}</span>
+        <span class="label label--small">Calories: {{ activity_total_calories }}</span>
+        <span class="label label--small">Active: {{ activity_high_activity_time }}</span>
+      </div>
+    </div>
+
+    <!-- HEART RATE -->
+    <div class="col col--span-3 gap--small">
+      <span class="title title--small">HEART RATE</span>
+      <span class="value value--xxlarge value--tnums">{{ hr_resting_hr }} bpm</span>
+      <div class="col gap--none">
+        <span class="label label--small">Average: {{ hr_avg_hr }} bpm</span>
+        <span class="label label--small">Min: {{ hr_min_hr }} bpm</span>
+        <span class="label label--small">Max: {{ hr_max_hr }} bpm</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="title_bar">
+  <span class="title">Oura Ring</span>
+  <span class="instance">{{ updated_at }}</span>
+</div>
