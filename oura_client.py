@@ -42,6 +42,7 @@ class OuraClient:
 
         result = {
             "score": score_item.get("score"),
+            "timestamp": score_item.get("timestamp"),
             "efficiency": contributors.get("efficiency"),
             "restfulness": contributors.get("restfulness"),
             "total_sleep": "--",
@@ -61,6 +62,10 @@ class OuraClient:
         data = self._get("daily_readiness", self._today_params())
         items = data.get("data", [])
         if not items:
+            yesterday = (date.today() - timedelta(days=1)).isoformat()
+            data = self._get("daily_readiness", {"start_date": yesterday, "end_date": yesterday})
+            items = data.get("data", [])
+        if not items:
             return None
         item = items[-1]
         contributors = item.get("contributors", {})
@@ -78,6 +83,11 @@ class OuraClient:
     def get_daily_activity(self) -> Optional[dict]:
         data = self._get("daily_activity", self._today_params())
         items = data.get("data", [])
+        if not items:
+            # Fall back to yesterday if today's activity isn't available yet
+            yesterday = (date.today() - timedelta(days=1)).isoformat()
+            data = self._get("daily_activity", {"start_date": yesterday, "end_date": yesterday})
+            items = data.get("data", [])
         if not items:
             return None
         item = items[-1]
@@ -128,6 +138,8 @@ class OuraClient:
             "max_hr": max_hr,
             "min_hr": min_hr,
             "reading_count": len(all_bpms),
+            "timestamp": items[-1].get("timestamp"),
+            "readings": items,
         }
 
     def get_all(self) -> dict:

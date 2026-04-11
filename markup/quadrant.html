@@ -1,0 +1,47 @@
+<!-- TRMNL Oura Ring Dashboard — Quadrant (400x240) -->
+
+<style>
+  .oura-grid { display: grid; grid-template-columns: 1fr 1fr; width: 100%; height: 100%; align-items: stretch; }
+  .oura-cell { padding: 8px 14px; display: flex; flex-direction: column; justify-content: center; }
+</style>
+
+<div class="layout layout--col" style="width: 100%; gap: 0; height: 100%;">
+
+  <div class="oura-grid">
+
+    <!-- READINESS -->
+    <div class="oura-cell" style="border-right: 1px solid var(--gray-65, #e0e0e0); border-bottom: 1px solid var(--gray-65, #e0e0e0);">
+      <span class="description">&#9733; READINESS</span>
+      <span class="value value--large value--tnums">{{ readiness_score }}</span>
+      <span class="label label--small">{{ readiness_status }}</span>
+    </div>
+
+    <!-- SLEEP -->
+    <div class="oura-cell" style="border-bottom: 1px solid var(--gray-65, #e0e0e0);">
+      <span class="description">&#9684; SLEEP</span>
+      <span class="value value--large value--tnums">{{ sleep_score }}</span>
+      <span class="label label--small">{{ sleep_total_sleep }}</span>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="oura-cell" style="border-right: 1px solid var(--gray-65, #e0e0e0);">
+      <span class="description">&#9650; ACTIVITY</span>
+      <span class="value value--large value--tnums">{{ activity_score }}</span>
+      <span class="label label--small">{{ activity_steps }} steps</span>
+    </div>
+
+    <!-- HEART RATE -->
+    <div class="oura-cell">
+      <span class="description">&#9829; HEART RATE</span>
+      <span class="value value--large value--tnums">{{ hr_resting_hr }}</span>
+      <span class="label label--small">bpm resting</span>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="title_bar">
+  <span class="title">Oura Ring</span>
+  <span class="instance">{{ updated_at }}</span>
+</div>
