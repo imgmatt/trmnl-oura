@@ -25,9 +25,32 @@ Three additional layouts are included for TRMNL mashups:
 
 ### 2. Create a TRMNL Private Plugin
 
-1. In your [TRMNL dashboard](https://trmnl.com/plugin_settings), create a new **Private Plugin**
-2. Copy the plugin UUID from the webhook URL (the part after `/api/custom_plugins/`)
-3. Paste the contents of each file in [`markup/`](markup/) into the matching markup tab (Full / Half Horizontal / Half Vertical / Quadrant)
+You need a **Private Plugin** with a **Webhook** strategy so this repo can `POST` merge variables to it. Follow these steps exactly:
+
+1. Sign in at [usetrmnl.com](https://usetrmnl.com) and open the [Plugins](https://usetrmnl.com/plugins) page.
+2. Click **Add New → Private Plugin** (sometimes labeled "Custom Plugin").
+3. Fill in the plugin details:
+   - **Name:** `Oura Stats` (or whatever you like)
+   - **Strategy:** select **Webhook** (so the plugin receives pushed data rather than polling a URL)
+   - **Refresh rate:** `15 minutes` (or match your desired cadence — this repo's GitHub Action runs every 15 min)
+   - **Dark mode:** optional; the templates are designed to work in both
+4. Click **Save**. TRMNL generates a **Webhook URL** of the form:
+   ```
+   https://usetrmnl.com/api/custom_plugins/{UUID}
+   ```
+   Copy only the `{UUID}` portion (everything after `/custom_plugins/`) — that's what you'll store as `TRMNL_PLUGIN_UUID`.
+5. Open the plugin's **Edit Markup** screen. You'll see four layout tabs: **Full**, **Half Horizontal**, **Half Vertical**, **Quadrant**.
+6. For each tab, paste the contents of the matching file from [`markup/`](markup/):
+   - `markup/full.html` → **Full** tab
+   - `markup/half_horizontal.html` → **Half Horizontal** tab
+   - `markup/half_vertical.html` → **Half Vertical** tab
+   - `markup/quadrant.html` → **Quadrant** tab
+7. Click **Save** on each tab. You can click **Preview** to see a render — it'll show placeholder values until the first real push arrives.
+8. Back on the plugin detail page, **Install** the plugin to your TRMNL device and assign it to a playlist slot so it actually appears on the screen.
+
+> **Note:** Whenever you change anything in `markup/*.html` in this repo, you must re-paste the updated markup into the corresponding TRMNL tab. TRMNL does **not** pull markup from GitHub automatically — the repo is source-of-truth for your own reference, but the plugin editor holds the live copy.
+
+> **Payload limit:** TRMNL rejects pushes where `merge_variables` JSON exceeds roughly 2 KB with an HTTP 422. `main.py` already contains a size guard that progressively shrinks the heart rate chart if the payload grows too large; don't add large free-text merge variables without accounting for the ceiling.
 
 ### 3. Deploy
 
@@ -89,7 +112,7 @@ The following variables are available in your TRMNL markup templates:
 | `sleep_rem_sleep` | 1h 50m |
 | `sleep_light_sleep` | 4h 30m |
 | `sleep_efficiency` | 92 |
-| `sleep_average_hrv` | 46 |
+| `readiness_hrv_balance` | 86 (templates display this as "AVG HRV" — Oura's 0–100 contributor score, not raw HRV ms) |
 | `sleep_average_breath` | 14.2 |
 | `activity_score` | 72 |
 | `activity_steps` | 8,432 |
@@ -126,7 +149,7 @@ The chart is an inline `<svg>` in the template with a fixed `viewBox="0 0 480 60
 - `hr_line_path` — the line itself
 - `hr_area_path` — the same line closed along the baseline for a light fill
 
-Path data is pure numeric text (`M`, `L`, `Z` plus coordinates), so it renders correctly even if TRMNL HTML-escapes merge variable values. `build_hr_line()` in [`main.py`](main.py) resamples the raw Oura BPM readings into 60 evenly-spaced time buckets, scales them to the chart's coordinate space, and emits both paths.
+Path data is pure numeric text (`M`, `L`, `Z` plus integer coordinates), so it renders correctly even if TRMNL HTML-escapes merge variable values. `build_hr_line()` in [`main.py`](main.py) resamples the raw Oura BPM readings into 40 evenly-spaced time buckets (shrinking further if needed to stay under TRMNL's 2 KB payload limit), scales them to the chart's coordinate space, and emits both paths.
 
 ## Files
 
