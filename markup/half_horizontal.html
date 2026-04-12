@@ -1,35 +1,26 @@
 <!-- TRMNL Oura Ring Dashboard — Half Horizontal (800x240) -->
 
 <style>
-  .oura-layout { width: 100%; height: 100%; gap: 0; }
-  .oura-row { display: grid; grid-template-columns: 1fr 1fr 1fr; width: 100%; height: 100%; align-items: stretch; }
-  .oura-cell { padding: 10px 20px; display: flex; flex-direction: column; justify-content: center; }
-  .oura-cell--divider-right { border-right: 1px solid var(--gray-65, #e0e0e0); }
-  .oura-header { display: flex; flex-direction: row; align-items: baseline; gap: 8px; margin-bottom: 4px; }
   .oura-icon { font-size: 14px; line-height: 1; position: relative; top: 1px; }
-  .oura-stat { display: flex; justify-content: space-between; align-items: baseline; }
-  .oura-stat-group { margin-top: 6px; }
-  .oura-stages { display: flex; gap: 16px; margin-top: 6px; }
-  .oura-stage-col { display: flex; flex-direction: column; }
 </style>
 
-<div class="layout layout--col oura-layout">
+<div class="layout layout--col gap--none">
 
-  <div class="oura-row">
+  <div class="grid grid--cols-3 stretch-y">
 
     <!-- READINESS -->
-    <div class="oura-cell oura-cell--divider-right">
-      <div class="oura-header">
+    <div class="flex flex--col flex--center-y p--small border--v-5">
+      <div class="flex flex--row gap--small mb--xsmall">
         <span class="title title--small">READINESS</span>
         <span class="oura-icon">&#9733;</span>
       </div>
       <span class="value value--large value--tnums">{{ readiness_score }}</span>
-      <div class="oura-stat-group">
-        <div class="oura-stat">
+      <div class="flex flex--col mt--xsmall">
+        <div class="flex flex--row flex--between">
           <span class="description">AVG HRV</span>
           <span class="label label--small">{{ readiness_hrv_balance }}</span>
         </div>
-        <div class="oura-stat">
+        <div class="flex flex--row flex--between">
           <span class="description">AVG SpO2</span>
           <span class="label label--small">{{ spo2_average }}</span>
         </div>
@@ -37,22 +28,22 @@
     </div>
 
     <!-- SLEEP -->
-    <div class="oura-cell oura-cell--divider-right">
-      <div class="oura-header">
+    <div class="flex flex--col flex--center-y p--small border--v-5">
+      <div class="flex flex--row gap--small mb--xsmall">
         <span class="title title--small">SLEEP</span>
         <span class="oura-icon">&#9684;</span>
       </div>
       <span class="value value--large value--tnums">{{ sleep_score }}</span>
-      <div class="oura-stages">
-        <div class="oura-stage-col">
+      <div class="flex flex--row gap--medium mt--xsmall">
+        <div class="flex flex--col">
           <span class="description">DEEP</span>
           <span class="label label--small">{{ sleep_deep_sleep }}</span>
         </div>
-        <div class="oura-stage-col">
+        <div class="flex flex--col">
           <span class="description">REM</span>
           <span class="label label--small">{{ sleep_rem_sleep }}</span>
         </div>
-        <div class="oura-stage-col">
+        <div class="flex flex--col">
           <span class="description">LIGHT</span>
           <span class="label label--small">{{ sleep_light_sleep }}</span>
         </div>
@@ -60,18 +51,18 @@
     </div>
 
     <!-- ACTIVITY -->
-    <div class="oura-cell">
-      <div class="oura-header">
+    <div class="flex flex--col flex--center-y p--small">
+      <div class="flex flex--row gap--small mb--xsmall">
         <span class="title title--small">ACTIVITY</span>
         <span class="oura-icon">&#9650;</span>
       </div>
       <span class="value value--large value--tnums">{{ activity_score }}</span>
-      <div class="oura-stat-group">
-        <div class="oura-stat">
+      <div class="flex flex--col mt--xsmall">
+        <div class="flex flex--row flex--between">
           <span class="description">BURN</span>
           <span class="label label--small">{{ activity_total_calories }}</span>
         </div>
-        <div class="oura-stat">
+        <div class="flex flex--row flex--between">
           <span class="description">STEPS</span>
           <span class="label label--small">{{ activity_steps }}</span>
         </div>

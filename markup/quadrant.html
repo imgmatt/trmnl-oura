@@ -1,24 +1,17 @@
 <!-- TRMNL Oura Ring Dashboard — Quadrant (400x240) -->
 
 <style>
-  .oura-layout { width: 100%; height: 100%; gap: 0; }
-  .oura-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; width: 100%; height: 100%; align-items: stretch; overflow: hidden; }
-  .oura-cell { padding: 8px 12px; display: flex; flex-direction: column; justify-content: flex-start; gap: 2px; min-height: 0; overflow: hidden; }
-  .oura-cell--divider-right { border-right: 1px solid var(--gray-65, #e0e0e0); }
-  .oura-cell--divider-bottom { border-bottom: 1px solid var(--gray-65, #e0e0e0); }
-  .oura-header { display: flex; flex-direction: row; align-items: baseline; gap: 6px; margin-bottom: 2px; }
   .oura-icon { font-size: 11px; line-height: 1; position: relative; top: 1px; }
   .oura-icon--heart { font-size: 12px; top: 2px; }
-  .oura-cell .value { line-height: 1.05; }
 </style>
 
-<div class="layout layout--col oura-layout">
+<div class="layout layout--col gap--none">
 
-  <div class="oura-grid">
+  <div class="grid grid--cols-2 stretch-y">
 
     <!-- READINESS -->
-    <div class="oura-cell oura-cell--divider-right oura-cell--divider-bottom">
-      <div class="oura-header">
+    <div class="flex flex--col p--xsmall border--v-5 border--h-5">
+      <div class="flex flex--row gap--xsmall mb--xsmall">
         <span class="title title--small">READINESS</span>
         <span class="oura-icon">&#9733;</span>
       </div>
@@ -27,8 +20,8 @@
     </div>
 
     <!-- SLEEP -->
-    <div class="oura-cell oura-cell--divider-bottom">
-      <div class="oura-header">
+    <div class="flex flex--col p--xsmall border--h-5">
+      <div class="flex flex--row gap--xsmall mb--xsmall">
         <span class="title title--small">SLEEP</span>
         <span class="oura-icon">&#9684;</span>
       </div>
@@ -37,8 +30,8 @@
     </div>
 
     <!-- ACTIVITY -->
-    <div class="oura-cell oura-cell--divider-right">
-      <div class="oura-header">
+    <div class="flex flex--col p--xsmall border--v-5">
+      <div class="flex flex--row gap--xsmall mb--xsmall">
         <span class="title title--small">ACTIVITY</span>
         <span class="oura-icon">&#9650;</span>
       </div>
@@ -47,8 +40,8 @@
     </div>
 
     <!-- HEART RATE -->
-    <div class="oura-cell">
-      <div class="oura-header">
+    <div class="flex flex--col p--xsmall">
+      <div class="flex flex--row gap--xsmall mb--xsmall">
         <span class="title title--small">HEART RATE</span>
         <span class="oura-icon oura-icon--heart">&#9829;</span>
       </div>
