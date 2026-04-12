@@ -56,14 +56,30 @@ You need a **Private Plugin** with a **Webhook** strategy so this repo can `POST
 
 #### Option A: GitHub Actions (recommended)
 
-1. Fork this repo
-2. Go to **Settings > Secrets and variables > Actions**
-3. Add two repository secrets:
-   - `OURA_TOKEN` — your Oura personal access token
-   - `TRMNL_PLUGIN_UUID` — your TRMNL plugin UUID
-4. Enable the workflow under **Actions**
+This runs the updater for you in the cloud every 15 minutes — no server, no laptop-left-on, no cron. If you've never used GitHub before, follow these steps exactly.
 
-The workflow runs every 15 minutes and pushes updated data to your TRMNL display. It uses `actions/cache@v4` to persist the last known data between runs, so sections that temporarily return empty (for example, activity data early in the day) fall back to their most recent values instead of displaying blanks.
+1. **Create a free GitHub account** at [github.com/signup](https://github.com/signup) if you don't have one.
+2. **Fork this repository.** On this repo's page, click the **Fork** button in the top-right corner. On the next screen, leave all defaults and click **Create fork**. You'll land on your own copy at `https://github.com/<your-username>/trmnl-oura`. All further steps happen on **your** fork, not the original.
+3. **Add your two secrets.** Secrets are encrypted values the workflow can read but nobody (including you, after saving) can see in plaintext.
+   1. On your fork, click the **Settings** tab (in the top navbar of the repo, near "Insights"). If you don't see it, make sure you're on your fork and not the original.
+   2. In the left sidebar, expand **Secrets and variables** and click **Actions**.
+   3. Click the green **New repository secret** button.
+   4. For **Name**, type exactly `OURA_TOKEN` (all caps, underscore). For **Secret**, paste your Oura personal access token from Step 1. Click **Add secret**.
+   5. Click **New repository secret** again. For **Name**, type exactly `TRMNL_PLUGIN_UUID`. For **Secret**, paste just the UUID portion of your TRMNL webhook URL (the part after `/custom_plugins/`). Click **Add secret**.
+   6. You should now see both `OURA_TOKEN` and `TRMNL_PLUGIN_UUID` listed under "Repository secrets".
+4. **Enable GitHub Actions on your fork.** Forks have Actions disabled by default as a safety measure.
+   1. Click the **Actions** tab in the top navbar.
+   2. You'll see a yellow banner: _"Workflows aren't being run on this forked repository."_ Click the green **I understand my workflows, go ahead and enable them** button.
+   3. In the list, you should now see a workflow named **Update TRMNL Display**. Click it.
+5. **Run it once manually to verify it works.**
+   1. On the workflow page, click the **Run workflow** dropdown on the right side.
+   2. Leave the branch as `main` and click the green **Run workflow** button.
+   3. Wait ~15 seconds, then refresh the page. You should see a new run appear. Click into it — if it shows a green checkmark, data has been pushed to TRMNL. If it shows a red X, click the failed job to see the error (most common causes: typo in the secret name, wrong token/UUID, or TRMNL plugin not saved yet).
+6. **You're done.** The workflow is scheduled via cron (`*/15 * * * *`) and will now run every 15 minutes automatically. You can watch runs under the **Actions** tab at any time.
+
+> **Note on GitHub's free tier:** Public repos get unlimited Actions minutes. Private repos include 2,000 free minutes/month, and this workflow uses roughly 13 seconds × 96 runs/day × 30 days ≈ 625 minutes/month — well within the free allowance even if you make your fork private.
+
+The workflow uses `actions/cache@v4` to persist the last known data between runs, so sections that temporarily return empty (for example, activity data early in the day) fall back to their most recent values instead of displaying blanks.
 
 #### Option B: Run locally
 
