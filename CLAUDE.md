@@ -25,6 +25,9 @@ The `sleep` endpoint returns every sleep session — naps, rests, and the main n
 ### HRV source
 "AVG HRV" in the templates is pulled from `readiness_hrv_balance` (Oura's 0–100 contributor score), not raw HRV ms from sleep. This was an explicit user preference.
 
+### Use TRMNL framework classes — no custom CSS
+TRMNL rejects plugins for publication with "too many inline styles". Markup in `markup/*.html` must use only the framework utility classes (`flex`, `flex--row/col`, `flex--center-y`, `flex--left`, `flex--between`, `gap--*`, `p--*`, `mb--*`, `border--h-*`, `stretch-x/y`, `grid grid--cols-*`, `col--span-*`, `title`, `value`, `label`, `description`). Do not add `<style>` blocks or custom classes to do layout. If alignment is off, fix it by applying the same framework classes to every cell, not by introducing custom CSS.
+
 ### Icon alignment
 The section icons are Unicode glyphs (★ ◔ ▲ ◆ ♥) with inconsistent vertical metrics. They're wrapped in a uniform `1em × 1em` inline-flex box with a `translateY(-1px)` nudge; heart (♥) gets `translateY(0)` since it sits differently. Don't revert this to naive inline rendering.
 

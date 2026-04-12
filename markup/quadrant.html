@@ -1,64 +1,44 @@
 <!-- TRMNL Oura Ring Dashboard — Quadrant (400x240) -->
 
-<style>
-  .oura-cell {
-    padding: 8px 12px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-  }
-  .oura-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 4px;
-  }
-  .oura-icon { font-size: 10px; line-height: 1; }
-  .oura-icon--heart { font-size: 12px; }
-</style>
-
 <div class="layout layout--col gap--none">
 
   <div class="grid grid--cols-2 stretch-y">
 
     <!-- READINESS -->
-    <div class="oura-cell border--h-5">
-      <div class="oura-header">
+    <div class="flex flex--col flex--left flex--center-y p--small border--h-5">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">READINESS</span>
-        <span class="oura-icon">&#9733;</span>
+        <span class="label label--small">&#9733;</span>
       </div>
       <span class="value value--medium value--tnums">{{ readiness_score }}</span>
       <span class="label label--small">{{ readiness_temperature_deviation }}</span>
     </div>
 
     <!-- SLEEP -->
-    <div class="oura-cell border--h-5">
-      <div class="oura-header">
+    <div class="flex flex--col flex--left flex--center-y p--small border--h-5">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">SLEEP</span>
-        <span class="oura-icon">&#9684;</span>
+        <span class="label label--small">&#9684;</span>
       </div>
       <span class="value value--medium value--tnums">{{ sleep_score }}</span>
       <span class="label label--small">{{ sleep_total_sleep }}</span>
     </div>
 
     <!-- ACTIVITY -->
-    <div class="oura-cell">
-      <div class="oura-header">
+    <div class="flex flex--col flex--left flex--center-y p--small">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">ACTIVITY</span>
-        <span class="oura-icon">&#9650;</span>
+        <span class="label label--small">&#9650;</span>
       </div>
       <span class="value value--medium value--tnums">{{ activity_score }}</span>
       <span class="label label--small">{{ activity_steps }} steps</span>
     </div>
 
     <!-- HEART RATE -->
-    <div class="oura-cell">
-      <div class="oura-header">
+    <div class="flex flex--col flex--left flex--center-y p--small">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">HEART RATE</span>
-        <span class="oura-icon oura-icon--heart">&#9829;</span>
+        <span class="label label--small">&#9829;</span>
       </div>
       <span class="value value--medium value--tnums">{{ hr_resting_hr }}</span>
       <span class="label label--small">bpm resting</span>

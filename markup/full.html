@@ -1,48 +1,23 @@
 <!-- TRMNL Oura Ring Dashboard — Full (800x480) -->
 
-<style>
-  .oura-cell {
-    padding: 12px 18px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-  }
-  .oura-cell--top { justify-content: flex-start; padding-top: 14px; }
-  .oura-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-  .oura-icon { font-size: 12px; line-height: 1; }
-  .oura-icon--heart { font-size: 14px; }
-  .oura-chart { width: 100%; height: 70px; margin-top: 6px; }
-  .oura-stat-group { display: flex; flex-direction: column; width: 100%; margin-top: 6px; }
-  .oura-stat { display: flex; flex-direction: row; justify-content: space-between; }
-  .oura-stages { display: flex; flex-direction: row; gap: 18px; margin-top: 6px; }
-</style>
-
 <div class="layout layout--col gap--none">
 
   <!-- Top: Readiness / Sleep / Activity -->
   <div class="grid grid--cols-3 stretch-y">
 
     <!-- READINESS -->
-    <div class="oura-cell">
-      <div class="oura-header">
+    <div class="flex flex--col flex--left flex--center-y p--small">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">READINESS</span>
-        <span class="oura-icon">&#9733;</span>
+        <span class="label label--small">&#9733;</span>
       </div>
       <span class="value value--large value--tnums">{{ readiness_score }}</span>
-      <div class="oura-stat-group">
-        <div class="oura-stat">
+      <div class="flex flex--col stretch-x mt--xsmall">
+        <div class="flex flex--row flex--between">
           <span class="description">AVG HRV</span>
           <span class="label label--small">{{ readiness_hrv_balance }}</span>
         </div>
-        <div class="oura-stat">
+        <div class="flex flex--row flex--between">
           <span class="description">AVG SpO2</span>
           <span class="label label--small">{{ spo2_average }}</span>
         </div>
@@ -50,41 +25,41 @@
     </div>
 
     <!-- SLEEP -->
-    <div class="oura-cell">
-      <div class="oura-header">
+    <div class="flex flex--col flex--left flex--center-y p--small">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">SLEEP</span>
-        <span class="oura-icon">&#9684;</span>
+        <span class="label label--small">&#9684;</span>
       </div>
       <span class="value value--large value--tnums">{{ sleep_score }}</span>
-      <div class="oura-stages">
-        <div>
-          <div class="description">DEEP</div>
-          <div class="label label--small">{{ sleep_deep_sleep }}</div>
+      <div class="flex flex--row gap--medium mt--xsmall">
+        <div class="flex flex--col">
+          <span class="description">DEEP</span>
+          <span class="label label--small">{{ sleep_deep_sleep }}</span>
         </div>
-        <div>
-          <div class="description">REM</div>
-          <div class="label label--small">{{ sleep_rem_sleep }}</div>
+        <div class="flex flex--col">
+          <span class="description">REM</span>
+          <span class="label label--small">{{ sleep_rem_sleep }}</span>
         </div>
-        <div>
-          <div class="description">LIGHT</div>
-          <div class="label label--small">{{ sleep_light_sleep }}</div>
+        <div class="flex flex--col">
+          <span class="description">LIGHT</span>
+          <span class="label label--small">{{ sleep_light_sleep }}</span>
         </div>
       </div>
     </div>
 
     <!-- ACTIVITY -->
-    <div class="oura-cell">
-      <div class="oura-header">
+    <div class="flex flex--col flex--left flex--center-y p--small">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">ACTIVITY</span>
-        <span class="oura-icon">&#9650;</span>
+        <span class="label label--small">&#9650;</span>
       </div>
       <span class="value value--large value--tnums">{{ activity_score }}</span>
-      <div class="oura-stat-group">
-        <div class="oura-stat">
+      <div class="flex flex--col stretch-x mt--xsmall">
+        <div class="flex flex--row flex--between">
           <span class="description">BURN</span>
           <span class="label label--small">{{ activity_total_calories }}</span>
         </div>
-        <div class="oura-stat">
+        <div class="flex flex--row flex--between">
           <span class="description">STEPS</span>
           <span class="label label--small">{{ activity_steps }}</span>
         </div>
@@ -97,21 +72,21 @@
   <div class="grid grid--cols-3 stretch-y border--h-5">
 
     <!-- BODY INSIGHTS -->
-    <div class="oura-cell oura-cell--top col--span-1">
-      <div class="oura-header">
+    <div class="flex flex--col flex--left flex--center-y p--small col--span-1">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">BODY INSIGHTS</span>
-        <span class="oura-icon">&#9670;</span>
+        <span class="label label--small">&#9670;</span>
       </div>
-      <div class="oura-stat-group">
-        <div class="oura-stat">
+      <div class="flex flex--col stretch-x">
+        <div class="flex flex--row flex--between">
           <span class="description">TEMP</span>
           <span class="label label--small">{{ readiness_temperature_deviation }}</span>
         </div>
-        <div class="oura-stat">
+        <div class="flex flex--row flex--between">
           <span class="description">RESP.</span>
           <span class="label label--small">{{ sleep_average_breath }}</span>
         </div>
-        <div class="oura-stat">
+        <div class="flex flex--row flex--between">
           <span class="description">RESTFUL</span>
           <span class="label label--small">{{ sleep_restfulness }}</span>
         </div>
@@ -119,26 +94,26 @@
     </div>
 
     <!-- HEART RATE -->
-    <div class="oura-cell oura-cell--top col--span-2">
-      <div class="oura-header">
+    <div class="flex flex--col flex--left flex--center-y p--small col--span-2">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">HEART RATE</span>
-        <span class="oura-icon oura-icon--heart">&#9829;</span>
+        <span class="label label--small">&#9829;</span>
       </div>
-      <div class="oura-stages">
-        <div>
-          <div class="description">RESTING</div>
-          <div class="value value--small value--tnums">{{ hr_resting_hr }} <span class="description">BPM</span></div>
+      <div class="flex flex--row gap--medium">
+        <div class="flex flex--col">
+          <span class="description">RESTING</span>
+          <span class="value value--small value--tnums">{{ hr_resting_hr }} <span class="description">BPM</span></span>
         </div>
-        <div>
-          <div class="description">AVERAGE</div>
-          <div class="value value--small value--tnums">{{ hr_avg_hr }} <span class="description">BPM</span></div>
+        <div class="flex flex--col">
+          <span class="description">AVERAGE</span>
+          <span class="value value--small value--tnums">{{ hr_avg_hr }} <span class="description">BPM</span></span>
         </div>
-        <div>
-          <div class="description">RANGE</div>
-          <div class="value value--small value--tnums">{{ hr_min_hr }}<span class="description">&#8211;</span>{{ hr_max_hr }}</div>
+        <div class="flex flex--col">
+          <span class="description">RANGE</span>
+          <span class="value value--small value--tnums">{{ hr_min_hr }}<span class="description">&#8211;</span>{{ hr_max_hr }}</span>
         </div>
       </div>
-      <svg class="oura-chart" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="100%" height="70" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="{{ hr_area_path }}" fill="black" fill-opacity="0.15" stroke="none"/>
         <path d="{{ hr_line_path }}" fill="none" stroke="black" stroke-width="1.5"/>
       </svg>
