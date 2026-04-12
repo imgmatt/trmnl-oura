@@ -19,7 +19,7 @@ CHART_PAD = 2
 DISPLAY_TZ = ZoneInfo(os.environ.get("DISPLAY_TZ", "America/Los_Angeles"))
 
 
-def build_hr_line(readings):
+def build_hr_line(readings, bucket_count=40):
     """Build SVG path strings (line + filled area) from heart rate readings.
 
     Returns a dict with 'hr_line_path' (line) and 'hr_area_path' (filled area).
@@ -45,9 +45,6 @@ def build_hr_line(readings):
 
     points.sort(key=lambda p: p[0])
 
-    # Resample to evenly-spaced points. Keep the count modest so the resulting
-    # SVG path strings stay well under TRMNL's 2KB merge_variables limit.
-    bucket_count = 40
     t_min = points[0][0].timestamp()
     t_max = points[-1][0].timestamp()
     t_range = t_max - t_min or 1
@@ -201,8 +198,10 @@ def main():
                 merge_vars[f"hr_{field}_display"] = f"{val} bpm"
             else:
                 merge_vars[f"hr_{field}_display"] = "--"
-        # Generate heart rate line chart (SVG path data)
+        # Generate heart rate line chart (SVG path data). Shrink the bucket
+        # count if needed to keep the full payload under TRMNL's 2KB limit.
         merge_vars.update(build_hr_line(readings))
+        hr_readings_for_resize = readings
     else:
         merge_vars["hr_resting_hr"] = "--"
         merge_vars["hr_resting_hr_display"] = "--"
@@ -212,6 +211,7 @@ def main():
         merge_vars["hr_min_hr"] = "--"
         merge_vars["hr_line_path"] = ""
         merge_vars["hr_area_path"] = ""
+        hr_readings_for_resize = None
 
     if data.get("spo2"):
         avg = data["spo2"].get("average")
@@ -220,7 +220,25 @@ def main():
         merge_vars["spo2_average"] = "--"
 
     import json
+
+    # TRMNL's custom_plugins webhook rejects merge_variables over 2KB with a 422.
+    # If the HR chart pushes us over, progressively shrink the bucket count.
+    TRMNL_LIMIT = 2000
     payload_bytes = len(json.dumps(merge_vars).encode("utf-8"))
+    if payload_bytes > TRMNL_LIMIT and hr_readings_for_resize:
+        for buckets in (30, 20, 12):
+            merge_vars.update(build_hr_line(hr_readings_for_resize, bucket_count=buckets))
+            payload_bytes = len(json.dumps(merge_vars).encode("utf-8"))
+            print(f"  resized HR chart to {buckets} buckets: {payload_bytes} bytes")
+            if payload_bytes <= TRMNL_LIMIT:
+                break
+        else:
+            # Last resort: drop the chart entirely rather than fail the push
+            merge_vars["hr_line_path"] = ""
+            merge_vars["hr_area_path"] = ""
+            payload_bytes = len(json.dumps(merge_vars).encode("utf-8"))
+            print(f"  dropped HR chart: {payload_bytes} bytes")
+
     print(f"Pushing {len(merge_vars)} variables to TRMNL ({payload_bytes} bytes)...")
     result = trmnl.push(merge_vars)
     print(f"Done: {result}")
