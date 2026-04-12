@@ -28,7 +28,7 @@ def save(data: dict) -> None:
 def merge_with_cache(fresh: dict) -> dict:
     """Merge freshly fetched data with the cache.
 
-    For each section (sleep, readiness, activity, heart_rate):
+    For each section (sleep, readiness, activity, heart_rate, spo2):
     - If fresh data exists, use it and update the cache.
     - If fresh data is None/missing, fall back to the cached value.
 
@@ -37,7 +37,7 @@ def merge_with_cache(fresh: dict) -> dict:
     cached = load()
     effective = {}
 
-    for section in ("sleep", "readiness", "activity", "heart_rate"):
+    for section in ("sleep", "readiness", "activity", "heart_rate", "spo2"):
         fresh_val = fresh.get(section)
         if fresh_val:
             effective[section] = fresh_val

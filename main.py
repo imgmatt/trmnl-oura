@@ -2,7 +2,8 @@
 
 import os
 import sys
-from datetime import date, datetime
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 import cache
 from oura_client import OuraClient
@@ -11,8 +12,11 @@ from trmnl_client import TRMNLClient
 
 # SVG chart viewBox dimensions — the <svg> tag in the template must match
 CHART_W = 480
-CHART_H = 50
+CHART_H = 60
 CHART_PAD = 2
+
+# Display timezone (override with DISPLAY_TZ env var if desired)
+DISPLAY_TZ = ZoneInfo(os.environ.get("DISPLAY_TZ", "America/Los_Angeles"))
 
 
 def build_hr_line(readings):
@@ -103,15 +107,16 @@ def main():
         print("Error: TRMNL_PLUGIN_UUID environment variable is required")
         sys.exit(1)
 
-    oura = OuraClient(oura_token)
+    oura = OuraClient(oura_token, tz=DISPLAY_TZ)
     trmnl = TRMNLClient(trmnl_uuid)
 
-    print(f"Fetching Oura data for {date.today().isoformat()}...")
+    today_local = datetime.now(DISPLAY_TZ).date().isoformat()
+    print(f"Fetching Oura data for {today_local} ({DISPLAY_TZ.key})...")
     fresh = oura.get_all()
 
     # Merge with cache: sections missing fresh data fall back to cached values
     data = cache.merge_with_cache(fresh)
-    for section in ("sleep", "readiness", "activity", "heart_rate"):
+    for section in ("sleep", "readiness", "activity", "heart_rate", "spo2"):
         src = "fresh" if fresh.get(section) else ("cached" if data.get(section) else "none")
         print(f"  {section}: {src}")
 
@@ -126,11 +131,16 @@ def main():
         latest = max(timestamps)
         try:
             dt = datetime.fromisoformat(latest)
+            # Ensure tz-aware (Oura returns offsets but be defensive), then convert to display tz
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            dt = dt.astimezone(DISPLAY_TZ)
             merge_vars = {"updated_at": dt.strftime("%b %d, %I:%M %p")}
         except (ValueError, TypeError):
             merge_vars = {"updated_at": latest}
     else:
-        merge_vars = {"updated_at": date.today().isoformat()}
+        today_local = datetime.now(DISPLAY_TZ).date().isoformat()
+        merge_vars = {"updated_at": today_local}
 
     if data["sleep"]:
         for k, v in data["sleep"].items():
@@ -140,8 +150,11 @@ def main():
         merge_vars["sleep_total_sleep"] = "--"
         merge_vars["sleep_deep_sleep"] = "--"
         merge_vars["sleep_rem_sleep"] = "--"
+        merge_vars["sleep_light_sleep"] = "--"
         merge_vars["sleep_efficiency"] = "--"
         merge_vars["sleep_restfulness"] = "--"
+        merge_vars["sleep_average_hrv"] = "--"
+        merge_vars["sleep_average_breath"] = "--"
 
     if data["readiness"]:
         for k, v in data["readiness"].items():
@@ -154,25 +167,17 @@ def main():
     else:
         merge_vars["readiness_score"] = "--"
         merge_vars["readiness_temperature_deviation"] = "--"
-        merge_vars["readiness_hrv_balance"] = "--"
         merge_vars["readiness_recovery_index"] = "--"
-        merge_vars["readiness_resting_heart_rate"] = "--"
         merge_vars["readiness_sleep_balance"] = "--"
 
     if data["activity"]:
         for k, v in data["activity"].items():
-            merge_vars[f"activity_{k}"] = v if v is not None else "--"
-        # Format steps with comma separator
-        steps = data["activity"].get("steps")
-        if steps is not None:
-            merge_vars["activity_steps"] = f"{steps:,}"
-        # Format calories
-        cals = data["activity"].get("total_calories")
-        if cals is not None:
-            merge_vars["activity_total_calories"] = f"{cals:,}"
-        active_cals = data["activity"].get("active_calories")
-        if active_cals is not None:
-            merge_vars["activity_active_calories"] = f"{active_cals:,}"
+            if v is None:
+                merge_vars[f"activity_{k}"] = "--"
+            elif isinstance(v, (int, float)):
+                merge_vars[f"activity_{k}"] = f"{v:,}"
+            else:
+                merge_vars[f"activity_{k}"] = str(v)
     else:
         merge_vars["activity_score"] = "--"
         merge_vars["activity_steps"] = "--"
@@ -183,8 +188,10 @@ def main():
         merge_vars["activity_low_activity_time"] = "--"
 
     if data["heart_rate"]:
-        readings = data["heart_rate"].pop("readings", [])
+        readings = data["heart_rate"].get("readings", [])
         for k, v in data["heart_rate"].items():
+            if k == "readings":
+                continue
             merge_vars[f"hr_{k}"] = v if v is not None else "--"
         # Add unit labels
         for field in ["resting_hr", "avg_hr", "max_hr", "min_hr"]:
@@ -204,6 +211,12 @@ def main():
         merge_vars["hr_min_hr"] = "--"
         merge_vars["hr_line_path"] = ""
         merge_vars["hr_area_path"] = ""
+
+    if data.get("spo2"):
+        avg = data["spo2"].get("average")
+        merge_vars["spo2_average"] = f"{avg:.1f}%" if isinstance(avg, (int, float)) else "--"
+    else:
+        merge_vars["spo2_average"] = "--"
 
     print(f"Pushing {len(merge_vars)} variables to TRMNL...")
     result = trmnl.push(merge_vars)

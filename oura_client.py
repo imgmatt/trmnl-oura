@@ -3,24 +3,31 @@
 from typing import Optional
 
 import requests
-from datetime import date, timedelta
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 
 BASE_URL = "https://api.ouraring.com/v2/usercollection"
 
 
 class OuraClient:
-    def __init__(self, token: str):
+    def __init__(self, token: str, tz: Optional[ZoneInfo] = None):
         self.session = requests.Session()
         self.session.headers["Authorization"] = f"Bearer {token}"
+        # Use the configured display timezone to determine what "today" means,
+        # so UTC-based GitHub runners query the correct local date.
+        self.tz = tz or ZoneInfo("America/Los_Angeles")
 
     def _get(self, endpoint: str, params: Optional[dict] = None) -> dict:
         resp = self.session.get(f"{BASE_URL}/{endpoint}", params=params)
         resp.raise_for_status()
         return resp.json()
 
+    def _today(self):
+        return datetime.now(self.tz).date()
+
     def _today_params(self) -> dict:
-        today = date.today().isoformat()
+        today = self._today().isoformat()
         return {"start_date": today, "end_date": today}
 
     def get_daily_sleep(self) -> Optional[dict]:
@@ -29,8 +36,8 @@ class OuraClient:
         daily_items = daily.get("data", [])
 
         # sleep has the actual durations in seconds — use a 2-day window to catch last night
-        yesterday = (date.today() - timedelta(days=1)).isoformat()
-        today = date.today().isoformat()
+        yesterday = (self._today() - timedelta(days=1)).isoformat()
+        today = self._today().isoformat()
         sleep = self._get("sleep", {"start_date": yesterday, "end_date": today})
         sleep_items = sleep.get("data", [])
 
@@ -53,6 +60,7 @@ class OuraClient:
             "total_sleep": "--",
             "deep_sleep": "--",
             "rem_sleep": "--",
+            "light_sleep": "--",
         }
 
         if sleep_items:
@@ -60,6 +68,9 @@ class OuraClient:
             result["total_sleep"] = _seconds_to_hm(s.get("total_sleep_duration"))
             result["deep_sleep"] = _seconds_to_hm(s.get("deep_sleep_duration"))
             result["rem_sleep"] = _seconds_to_hm(s.get("rem_sleep_duration"))
+            result["light_sleep"] = _seconds_to_hm(s.get("light_sleep_duration"))
+            result["average_hrv"] = s.get("average_hrv")
+            result["average_breath"] = s.get("average_breath")
 
         return result
 
@@ -67,7 +78,7 @@ class OuraClient:
         data = self._get("daily_readiness", self._today_params())
         items = data.get("data", [])
         if not items:
-            yesterday = (date.today() - timedelta(days=1)).isoformat()
+            yesterday = (self._today() - timedelta(days=1)).isoformat()
             data = self._get("daily_readiness", {"start_date": yesterday, "end_date": yesterday})
             items = data.get("data", [])
         if not items:
@@ -90,7 +101,7 @@ class OuraClient:
         items = data.get("data", [])
         if not items:
             # Fall back to yesterday if today's activity isn't available yet
-            yesterday = (date.today() - timedelta(days=1)).isoformat()
+            yesterday = (self._today() - timedelta(days=1)).isoformat()
             data = self._get("daily_activity", {"start_date": yesterday, "end_date": yesterday})
             items = data.get("data", [])
         if not items:
@@ -110,8 +121,8 @@ class OuraClient:
         }
 
     def get_heart_rate(self) -> Optional[dict]:
-        today = date.today().isoformat()
-        yesterday = (date.today() - timedelta(days=1)).isoformat()
+        today = self._today().isoformat()
+        yesterday = (self._today() - timedelta(days=1)).isoformat()
         data = self._get("heartrate", {
             "start_datetime": f"{yesterday}T22:00:00",
             "end_datetime": f"{today}T23:59:59",
@@ -147,12 +158,30 @@ class OuraClient:
             "readings": items,
         }
 
+    def get_daily_spo2(self) -> Optional[dict]:
+        data = self._get("daily_spo2", self._today_params())
+        items = data.get("data", [])
+        if not items:
+            yesterday = (self._today() - timedelta(days=1)).isoformat()
+            data = self._get("daily_spo2", {"start_date": yesterday, "end_date": yesterday})
+            items = data.get("data", [])
+        if not items:
+            return None
+        item = items[-1]
+        # spo2_percentage is a nested dict with "average" key
+        spo2 = item.get("spo2_percentage") or {}
+        return {
+            "average": spo2.get("average"),
+            "timestamp": item.get("timestamp") or item.get("day"),
+        }
+
     def get_all(self) -> dict:
         return {
             "sleep": self.get_daily_sleep(),
             "readiness": self.get_daily_readiness(),
             "activity": self.get_daily_activity(),
             "heart_rate": self.get_heart_rate(),
+            "spo2": self.get_daily_spo2(),
         }
 
 

@@ -80,28 +80,25 @@ The following variables are available in your TRMNL markup templates:
 | Variable | Example |
 |---|---|
 | `readiness_score` | 78 |
-| `readiness_status` | Optimal |
-| `readiness_hrv_label` | Good |
 | `readiness_temperature_deviation` | +0.2° |
 | `readiness_recovery_index` | 90 |
 | `readiness_sleep_balance` | 85 |
 | `sleep_score` | 85 |
-| `sleep_status` | Good |
 | `sleep_total_sleep` | 7h 42m |
 | `sleep_deep_sleep` | 1h 20m |
 | `sleep_rem_sleep` | 1h 50m |
 | `sleep_light_sleep` | 4h 30m |
 | `sleep_efficiency` | 92 |
-| `sleep_avg_breath` | 14.2 |
-| `sleep_restless_label` | Low |
+| `sleep_average_hrv` | 46 |
+| `sleep_average_breath` | 14.2 |
 | `activity_score` | 72 |
-| `activity_status` | Meet daily targets |
 | `activity_steps` | 8,432 |
 | `activity_total_calories` | 2,100 |
 | `activity_active_calories` | 420 |
 | `activity_high_activity_time` | 45m |
 | `activity_medium_activity_time` | 1h 20m |
 | `activity_low_activity_time` | 3h 15m |
+| `spo2_average` | 97.5% |
 
 ### Heart rate
 
@@ -124,7 +121,7 @@ The following variables are available in your TRMNL markup templates:
 
 ## How the heart rate chart works
 
-The chart is an inline `<svg>` in the template with a fixed `viewBox="0 0 480 50"`. Two `<path>` elements get their `d` attribute populated from merge variables:
+The chart is an inline `<svg>` in the template with a fixed `viewBox="0 0 480 60"`. Two `<path>` elements get their `d` attribute populated from merge variables:
 
 - `hr_line_path` — the line itself
 - `hr_area_path` — the same line closed along the baseline for a light fill
