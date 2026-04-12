@@ -1,11 +1,12 @@
 <!-- TRMNL Oura Ring Dashboard — Quadrant (400x240) -->
 
 <style>
-  .oura-grid { display: grid; grid-template-columns: 1fr 1fr; width: 100%; height: 100%; align-items: stretch; }
-  .oura-cell { padding: 8px 14px; display: flex; flex-direction: column; justify-content: center; }
-  .oura-header { display: flex; flex-direction: row; align-items: center; gap: 6px; }
-  .oura-icon { font-size: 16px; line-height: 1; }
-  .oura-icon--heart { font-size: 20px; }
+  .oura-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; width: 100%; height: 100%; align-items: stretch; overflow: hidden; }
+  .oura-cell { padding: 8px 12px; display: flex; flex-direction: column; justify-content: flex-start; gap: 2px; min-height: 0; overflow: hidden; }
+  .oura-header { display: flex; flex-direction: row; align-items: center; gap: 8px; margin-bottom: 2px; }
+  .oura-icon { display: inline-flex; align-items: center; justify-content: center; width: 1em; height: 1em; font-size: 14px; line-height: 1; transform: translateY(-1px); }
+  .oura-icon--heart { font-size: 16px; transform: translateY(0); }
+  .oura-cell .value { line-height: 1.05; }
 </style>
 
 <div class="layout layout--col" style="width: 100%; gap: 0; height: 100%;">
@@ -18,7 +19,8 @@
         <span class="title title--small">READINESS</span>
         <span class="oura-icon">&#9733;</span>
       </div>
-      <span class="value value--large value--tnums">{{ readiness_score }}</span>
+      <span class="value value--medium value--tnums">{{ readiness_score }}</span>
+      <span class="label label--small">{{ readiness_temperature_deviation }}</span>
     </div>
 
     <!-- SLEEP -->
@@ -27,7 +29,7 @@
         <span class="title title--small">SLEEP</span>
         <span class="oura-icon">&#9684;</span>
       </div>
-      <span class="value value--large value--tnums">{{ sleep_score }}</span>
+      <span class="value value--medium value--tnums">{{ sleep_score }}</span>
       <span class="label label--small">{{ sleep_total_sleep }}</span>
     </div>
 
@@ -37,7 +39,7 @@
         <span class="title title--small">ACTIVITY</span>
         <span class="oura-icon">&#9650;</span>
       </div>
-      <span class="value value--large value--tnums">{{ activity_score }}</span>
+      <span class="value value--medium value--tnums">{{ activity_score }}</span>
       <span class="label label--small">{{ activity_steps }} steps</span>
     </div>
 
@@ -47,7 +49,7 @@
         <span class="title title--small">HEART RATE</span>
         <span class="oura-icon oura-icon--heart">&#9829;</span>
       </div>
-      <span class="value value--large value--tnums">{{ hr_resting_hr }}</span>
+      <span class="value value--medium value--tnums">{{ hr_resting_hr }}</span>
       <span class="label label--small">bpm resting</span>
     </div>
 

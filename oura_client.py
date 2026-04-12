@@ -63,8 +63,19 @@ class OuraClient:
             "light_sleep": "--",
         }
 
-        if sleep_items:
-            s = sleep_items[-1]
+        # Oura's sleep endpoint returns every sleep session (naps, rests, etc.).
+        # Prefer the main nightly session ("long_sleep"); fall back to the
+        # longest session if none is tagged that way. Nap sessions don't
+        # populate average_hrv / average_breath.
+        long_sleeps = [s for s in sleep_items if s.get("type") == "long_sleep"]
+        if long_sleeps:
+            s = max(long_sleeps, key=lambda x: x.get("total_sleep_duration") or 0)
+        elif sleep_items:
+            s = max(sleep_items, key=lambda x: x.get("total_sleep_duration") or 0)
+        else:
+            s = None
+
+        if s:
             result["total_sleep"] = _seconds_to_hm(s.get("total_sleep_duration"))
             result["deep_sleep"] = _seconds_to_hm(s.get("deep_sleep_duration"))
             result["rem_sleep"] = _seconds_to_hm(s.get("rem_sleep_duration"))
