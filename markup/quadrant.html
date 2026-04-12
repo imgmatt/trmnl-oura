@@ -1,8 +1,22 @@
 <!-- TRMNL Oura Ring Dashboard — Quadrant (400x240) -->
 
 <style>
-  .oura-cell { padding: 8px 12px; box-sizing: border-box; }
-  .oura-icon { display: inline-block; vertical-align: middle; font-size: 10px; line-height: 1; }
+  .oura-cell {
+    padding: 8px 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .oura-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .oura-icon { font-size: 10px; line-height: 1; }
   .oura-icon--heart { font-size: 12px; }
 </style>
 
@@ -11,8 +25,8 @@
   <div class="grid grid--cols-2 stretch-y">
 
     <!-- READINESS -->
-    <div class="oura-cell flex flex--col flex--left border--h-5">
-      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
+    <div class="oura-cell border--h-5">
+      <div class="oura-header">
         <span class="title title--small">READINESS</span>
         <span class="oura-icon">&#9733;</span>
       </div>
@@ -21,8 +35,8 @@
     </div>
 
     <!-- SLEEP -->
-    <div class="oura-cell flex flex--col flex--left border--h-5">
-      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
+    <div class="oura-cell border--h-5">
+      <div class="oura-header">
         <span class="title title--small">SLEEP</span>
         <span class="oura-icon">&#9684;</span>
       </div>
@@ -31,8 +45,8 @@
     </div>
 
     <!-- ACTIVITY -->
-    <div class="oura-cell flex flex--col flex--left">
-      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
+    <div class="oura-cell">
+      <div class="oura-header">
         <span class="title title--small">ACTIVITY</span>
         <span class="oura-icon">&#9650;</span>
       </div>
@@ -41,8 +55,8 @@
     </div>
 
     <!-- HEART RATE -->
-    <div class="oura-cell flex flex--col flex--left">
-      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
+    <div class="oura-cell">
+      <div class="oura-header">
         <span class="title title--small">HEART RATE</span>
         <span class="oura-icon oura-icon--heart">&#9829;</span>
       </div>
