@@ -1,12 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
-  <!-- Background (transparent by default; uncomment for white fill if TRMNL requires a solid background)
+  <!-- Background (transparent by default; uncomment for solid white if TRMNL requires one)
   <rect width="240" height="240" fill="white"/>
   -->
 
-  <!-- Outer ring: evokes a smart ring without copying Oura's exact proportions -->
-  <circle cx="120" cy="120" r="78" fill="none" stroke="black" stroke-width="26"/>
+  <!-- Activity arc (270° of the ring) rendered as a string of round dots.
+       Evokes discrete data samples circling a smart ring. Built with a
+       tiny dash and round linecaps so each mark renders as a clean dot.
+       Color: TRMNL accent orange (#f8654b). -->
+  <path d="M 120 32 A 88 88 0 1 1 32 120"
+        fill="none"
+        stroke="#f8654b"
+        stroke-width="14"
+        stroke-linecap="round"
+        stroke-dasharray="0.1 18"/>
 
-  <!-- Sensor indicator: small filled dot at ~2 o'clock, implying a data point /
-       reading. This is the distinguishing element from Oura's plain ring mark. -->
-  <circle cx="178" cy="62" r="14" fill="black"/>
+  <!-- Heartbeat / ECG pulse line in the center — the core of this plugin
+       (heart rate + health metrics). Same TRMNL orange, slightly thinner. -->
+  <path d="M 70 120 L 94 120 L 102 102 L 112 150 L 122 78 L 132 140 L 142 120 L 170 120"
+        fill="none"
+        stroke="#f8654b"
+        stroke-width="7"
+        stroke-linejoin="round"
+        stroke-linecap="round"/>
 </svg>
