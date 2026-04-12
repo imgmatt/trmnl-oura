@@ -1,19 +1,20 @@
 <!-- TRMNL Oura Ring Dashboard — Half Vertical (400x480) -->
 
 <style>
-  .oura-icon { font-size: 14px; line-height: 1; position: relative; top: 1px; }
-  .oura-icon--heart { font-size: 15px; top: 2px; }
+  .oura-cell { padding: 10px 16px; box-sizing: border-box; }
+  .oura-icon { display: inline-block; vertical-align: middle; font-size: 12px; line-height: 1; }
+  .oura-icon--heart { font-size: 14px; }
 </style>
 
 <div class="layout layout--col gap--none">
 
   <!-- READINESS -->
-  <div class="flex flex--col flex--center-y flex--left p--small border--h-5 stretch-y">
-    <div class="flex flex--row gap--small mb--xsmall">
+  <div class="oura-cell flex flex--col flex--center-y flex--left border--h-5 stretch-y">
+    <div class="flex flex--row flex--center-y gap--small mb--xsmall">
       <span class="title title--small">READINESS</span>
       <span class="oura-icon">&#9733;</span>
     </div>
-    <div class="flex flex--row flex--between flex--center-y">
+    <div class="flex flex--row flex--between flex--center-y stretch-x">
       <span class="value value--large value--tnums">{{ readiness_score }}</span>
       <div class="flex flex--col">
         <div class="flex flex--row flex--between gap--small">
@@ -29,12 +30,12 @@
   </div>
 
   <!-- SLEEP -->
-  <div class="flex flex--col flex--center-y flex--left p--small border--h-5 stretch-y">
-    <div class="flex flex--row gap--small mb--xsmall">
+  <div class="oura-cell flex flex--col flex--center-y flex--left border--h-5 stretch-y">
+    <div class="flex flex--row flex--center-y gap--small mb--xsmall">
       <span class="title title--small">SLEEP</span>
       <span class="oura-icon">&#9684;</span>
     </div>
-    <div class="flex flex--row flex--between flex--center-y">
+    <div class="flex flex--row flex--between flex--center-y stretch-x">
       <span class="value value--large value--tnums">{{ sleep_score }}</span>
       <div class="flex flex--row gap--medium">
         <div class="flex flex--col">
@@ -54,12 +55,12 @@
   </div>
 
   <!-- ACTIVITY -->
-  <div class="flex flex--col flex--center-y flex--left p--small border--h-5 stretch-y">
-    <div class="flex flex--row gap--small mb--xsmall">
+  <div class="oura-cell flex flex--col flex--center-y flex--left border--h-5 stretch-y">
+    <div class="flex flex--row flex--center-y gap--small mb--xsmall">
       <span class="title title--small">ACTIVITY</span>
       <span class="oura-icon">&#9650;</span>
     </div>
-    <div class="flex flex--row flex--between flex--center-y">
+    <div class="flex flex--row flex--between flex--center-y stretch-x">
       <span class="value value--large value--tnums">{{ activity_score }}</span>
       <div class="flex flex--col">
         <div class="flex flex--row flex--between gap--small">
@@ -75,12 +76,12 @@
   </div>
 
   <!-- HEART RATE -->
-  <div class="flex flex--col flex--center-y flex--left p--small stretch-y">
-    <div class="flex flex--row gap--small mb--xsmall">
+  <div class="oura-cell flex flex--col flex--center-y flex--left stretch-y">
+    <div class="flex flex--row flex--center-y gap--small mb--xsmall">
       <span class="title title--small">HEART RATE</span>
       <span class="oura-icon oura-icon--heart">&#9829;</span>
     </div>
-    <div class="flex flex--row flex--between flex--center-y">
+    <div class="flex flex--row flex--between flex--center-y stretch-x">
       <span class="value value--large value--tnums">{{ hr_resting_hr }}</span>
       <div class="flex flex--col">
         <div class="flex flex--row flex--between gap--small">

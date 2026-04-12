@@ -1,8 +1,9 @@
 <!-- TRMNL Oura Ring Dashboard — Quadrant (400x240) -->
 
 <style>
-  .oura-icon { font-size: 11px; line-height: 1; position: relative; top: 1px; }
-  .oura-icon--heart { font-size: 12px; top: 2px; }
+  .oura-cell { padding: 8px 12px; box-sizing: border-box; }
+  .oura-icon { display: inline-block; vertical-align: middle; font-size: 10px; line-height: 1; }
+  .oura-icon--heart { font-size: 12px; }
 </style>
 
 <div class="layout layout--col gap--none">
@@ -10,8 +11,8 @@
   <div class="grid grid--cols-2 stretch-y">
 
     <!-- READINESS -->
-    <div class="flex flex--col flex--left p--xsmall border--v-5 border--h-5">
-      <div class="flex flex--row gap--xsmall mb--xsmall">
+    <div class="oura-cell flex flex--col flex--left border--h-5">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">READINESS</span>
         <span class="oura-icon">&#9733;</span>
       </div>
@@ -20,8 +21,8 @@
     </div>
 
     <!-- SLEEP -->
-    <div class="flex flex--col flex--left p--xsmall border--h-5">
-      <div class="flex flex--row gap--xsmall mb--xsmall">
+    <div class="oura-cell flex flex--col flex--left border--h-5">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">SLEEP</span>
         <span class="oura-icon">&#9684;</span>
       </div>
@@ -30,8 +31,8 @@
     </div>
 
     <!-- ACTIVITY -->
-    <div class="flex flex--col flex--left p--xsmall border--v-5">
-      <div class="flex flex--row gap--xsmall mb--xsmall">
+    <div class="oura-cell flex flex--col flex--left">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">ACTIVITY</span>
         <span class="oura-icon">&#9650;</span>
       </div>
@@ -40,8 +41,8 @@
     </div>
 
     <!-- HEART RATE -->
-    <div class="flex flex--col flex--left p--xsmall">
-      <div class="flex flex--row gap--xsmall mb--xsmall">
+    <div class="oura-cell flex flex--col flex--left">
+      <div class="flex flex--row flex--center-y gap--xsmall mb--xsmall">
         <span class="title title--small">HEART RATE</span>
         <span class="oura-icon oura-icon--heart">&#9829;</span>
       </div>
