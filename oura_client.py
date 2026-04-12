@@ -108,13 +108,22 @@ class OuraClient:
         }
 
     def get_daily_activity(self) -> Optional[dict]:
+        today = self._today().isoformat()
         data = self._get("daily_activity", self._today_params())
         items = data.get("data", [])
+        print(f"[activity] today={today} items={len(items)}")
         if not items:
-            # Fall back to yesterday if today's activity isn't available yet
             yesterday = (self._today() - timedelta(days=1)).isoformat()
             data = self._get("daily_activity", {"start_date": yesterday, "end_date": yesterday})
             items = data.get("data", [])
+            print(f"[activity] yesterday={yesterday} items={len(items)}")
+            if not items:
+                # Widen to last 3 days to diagnose sync lag
+                three_ago = (self._today() - timedelta(days=3)).isoformat()
+                data = self._get("daily_activity", {"start_date": three_ago, "end_date": today})
+                items = data.get("data", [])
+                days_returned = [it.get("day") for it in items]
+                print(f"[activity] last 3 days days_returned={days_returned}")
         if not items:
             return None
         item = items[-1]
