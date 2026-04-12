@@ -46,7 +46,8 @@ You need a **Private Plugin** with a **Webhook** strategy so this repo can `POST
    - `markup/half_vertical.html` → **Half Vertical** tab
    - `markup/quadrant.html` → **Quadrant** tab
 7. Click **Save** on each tab. You can click **Preview** to see a render — it'll show placeholder values until the first real push arrives.
-8. Back on the plugin detail page, **Install** the plugin to your TRMNL device and assign it to a playlist slot so it actually appears on the screen.
+8. **(Optional) Upload the plugin icon.** In the plugin settings, there's an **Icon** or **Image** upload field. Export [`assets/icon.svg`](assets/icon.svg) to a PNG (any small square size like 96×96 or 240×240 works) and upload it — you can do this with Inkscape, an online SVG→PNG converter, or by opening the SVG in a browser and screenshotting.
+9. Back on the plugin detail page, **Install** the plugin to your TRMNL device and assign it to a playlist slot so it actually appears on the screen.
 
 > **Note:** Whenever you change anything in `markup/*.html` in this repo, you must re-paste the updated markup into the corresponding TRMNL tab. TRMNL does **not** pull markup from GitHub automatically — the repo is source-of-truth for your own reference, but the plugin editor holds the live copy.
 
