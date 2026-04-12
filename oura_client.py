@@ -28,11 +28,16 @@ class OuraClient:
         daily = self._get("daily_sleep", self._today_params())
         daily_items = daily.get("data", [])
 
-        # sleep has the actual durations in seconds
+        # sleep has the actual durations in seconds — use a 2-day window to catch last night
         yesterday = (date.today() - timedelta(days=1)).isoformat()
         today = date.today().isoformat()
         sleep = self._get("sleep", {"start_date": yesterday, "end_date": today})
         sleep_items = sleep.get("data", [])
+
+        # Fall back to yesterday's daily_sleep score if today's isn't available yet
+        if not daily_items:
+            daily = self._get("daily_sleep", {"start_date": yesterday, "end_date": yesterday})
+            daily_items = daily.get("data", [])
 
         if not daily_items:
             return None

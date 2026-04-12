@@ -4,51 +4,92 @@ import os
 import sys
 from datetime import date, datetime
 
+import cache
 from oura_client import OuraClient
 from trmnl_client import TRMNLClient
 
 
-def build_hr_bars(readings):
-    """Bucket heart rate readings into 24 hourly bars, return height percentages."""
-    bars = {}
-    # Initialize all 24 hours to empty
-    for h in range(24):
-        bars[h] = []
+# SVG chart viewBox dimensions — the <svg> tag in the template must match
+CHART_W = 480
+CHART_H = 50
+CHART_PAD = 2
 
-    for r in readings:
+
+def build_hr_line(readings):
+    """Build SVG path strings (line + filled area) from heart rate readings.
+
+    Returns a dict with 'hr_line_path' (line) and 'hr_area_path' (filled area).
+    The SVG structure lives in the template; only numeric path data is substituted,
+    which is safe from HTML-escaping.
+    """
+    empty = {"hr_line_path": "", "hr_area_path": ""}
+
+    points = []
+    for r in readings or []:
         bpm = r.get("bpm")
         ts = r.get("timestamp")
         if bpm is None or ts is None:
             continue
         try:
             dt = datetime.fromisoformat(ts)
-            bars[dt.hour].append(bpm)
+            points.append((dt, bpm))
         except (ValueError, TypeError):
             continue
 
-    # Compute average BPM per hour
-    hourly_avg = {}
-    for h, bpms in bars.items():
-        hourly_avg[h] = round(sum(bpms) / len(bpms)) if bpms else 0
+    if len(points) < 2:
+        return empty
 
-    # Scale to percentages (0-100) relative to the data range
-    active = [v for v in hourly_avg.values() if v > 0]
-    if not active:
-        return {f"hr_bar_{h}": 0 for h in range(24)}
+    points.sort(key=lambda p: p[0])
 
-    bpm_min = min(active) - 5
-    bpm_max = max(active) + 5
+    # Resample to ~60 evenly-spaced points for a smoother line
+    bucket_count = 60
+    t_min = points[0][0].timestamp()
+    t_max = points[-1][0].timestamp()
+    t_range = t_max - t_min or 1
+    bucket_size = t_range / bucket_count
+
+    buckets = [[] for _ in range(bucket_count)]
+    for dt, bpm in points:
+        idx = min(int((dt.timestamp() - t_min) / bucket_size), bucket_count - 1)
+        buckets[idx].append(bpm)
+
+    sampled = []
+    last_avg = None
+    for i, bucket in enumerate(buckets):
+        if bucket:
+            avg = sum(bucket) / len(bucket)
+            sampled.append((i, avg))
+            last_avg = avg
+        elif last_avg is not None:
+            # Carry forward so the line stays continuous
+            sampled.append((i, last_avg))
+
+    if len(sampled) < 2:
+        return empty
+
+    bpms = [v for _, v in sampled]
+    bpm_min = min(bpms) - 3
+    bpm_max = max(bpms) + 3
     bpm_range = bpm_max - bpm_min or 1
 
-    result = {}
-    for h in range(24):
-        avg = hourly_avg[h]
-        if avg == 0:
-            result[f"hr_bar_{h}"] = 0
-        else:
-            pct = round((avg - bpm_min) / bpm_range * 100)
-            result[f"hr_bar_{h}"] = max(pct, 4)  # minimum 4% so bar is visible
-    return result
+    plot_w = CHART_W - CHART_PAD * 2
+    plot_h = CHART_H - CHART_PAD * 2
+
+    coords = []
+    for i, bpm in sampled:
+        x = CHART_PAD + (i / (bucket_count - 1)) * plot_w
+        y = CHART_PAD + (1 - (bpm - bpm_min) / bpm_range) * plot_h
+        coords.append((round(x, 1), round(y, 1)))
+
+    line_parts = [f"M{coords[0][0]},{coords[0][1]}"]
+    for x, y in coords[1:]:
+        line_parts.append(f"L{x},{y}")
+    line_path = " ".join(line_parts)
+
+    baseline_y = CHART_PAD + plot_h
+    area_path = line_path + f" L{coords[-1][0]},{baseline_y} L{coords[0][0]},{baseline_y} Z"
+
+    return {"hr_line_path": line_path, "hr_area_path": area_path}
 
 
 def main():
@@ -66,7 +107,13 @@ def main():
     trmnl = TRMNLClient(trmnl_uuid)
 
     print(f"Fetching Oura data for {date.today().isoformat()}...")
-    data = oura.get_all()
+    fresh = oura.get_all()
+
+    # Merge with cache: sections missing fresh data fall back to cached values
+    data = cache.merge_with_cache(fresh)
+    for section in ("sleep", "readiness", "activity", "heart_rate"):
+        src = "fresh" if fresh.get(section) else ("cached" if data.get(section) else "none")
+        print(f"  {section}: {src}")
 
     # Flatten nested dicts into merge variables with prefixed keys
     # Collect timestamps from each data source to find the most recent
@@ -146,8 +193,8 @@ def main():
                 merge_vars[f"hr_{field}_display"] = f"{val} bpm"
             else:
                 merge_vars[f"hr_{field}_display"] = "--"
-        # Generate heart rate bar chart data
-        merge_vars.update(build_hr_bars(readings))
+        # Generate heart rate line chart (SVG path data)
+        merge_vars.update(build_hr_line(readings))
     else:
         merge_vars["hr_resting_hr"] = "--"
         merge_vars["hr_resting_hr_display"] = "--"
@@ -155,8 +202,8 @@ def main():
         merge_vars["hr_avg_hr_display"] = "--"
         merge_vars["hr_max_hr"] = "--"
         merge_vars["hr_min_hr"] = "--"
-        for h in range(24):
-            merge_vars[f"hr_bar_{h}"] = 0
+        merge_vars["hr_line_path"] = ""
+        merge_vars["hr_area_path"] = ""
 
     print(f"Pushing {len(merge_vars)} variables to TRMNL...")
     result = trmnl.push(merge_vars)
