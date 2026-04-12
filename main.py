@@ -45,8 +45,9 @@ def build_hr_line(readings):
 
     points.sort(key=lambda p: p[0])
 
-    # Resample to ~60 evenly-spaced points for a smoother line
-    bucket_count = 60
+    # Resample to evenly-spaced points. Keep the count modest so the resulting
+    # SVG path strings stay well under TRMNL's 2KB merge_variables limit.
+    bucket_count = 40
     t_min = points[0][0].timestamp()
     t_max = points[-1][0].timestamp()
     t_range = t_max - t_min or 1
@@ -83,7 +84,7 @@ def build_hr_line(readings):
     for i, bpm in sampled:
         x = CHART_PAD + (i / (bucket_count - 1)) * plot_w
         y = CHART_PAD + (1 - (bpm - bpm_min) / bpm_range) * plot_h
-        coords.append((round(x, 1), round(y, 1)))
+        coords.append((round(x), round(y)))
 
     line_parts = [f"M{coords[0][0]},{coords[0][1]}"]
     for x, y in coords[1:]:
@@ -218,7 +219,9 @@ def main():
     else:
         merge_vars["spo2_average"] = "--"
 
-    print(f"Pushing {len(merge_vars)} variables to TRMNL...")
+    import json
+    payload_bytes = len(json.dumps(merge_vars).encode("utf-8"))
+    print(f"Pushing {len(merge_vars)} variables to TRMNL ({payload_bytes} bytes)...")
     result = trmnl.push(merge_vars)
     print(f"Done: {result}")
 
