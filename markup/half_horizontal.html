@@ -5,14 +5,9 @@
 
     <div class="column">
       <div class="item">
-        <div class="meta"></div>
-        <div class="content">
+        <div class="content" data-content-limiter="true">
           <span class="title title--small">READINESS &#9733;</span>
-          <span class="value value--xlarge value--tnums">{{ readiness_score }}</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
+          <span class="value value--large value--tnums">{{ readiness_score }}</span>
           <div class="flex gap--small">
             <span class="label label--small label--underline">HRV {{ readiness_hrv_balance }}</span>
             <span class="label label--small label--underline">SpO2 {{ spo2_average }}</span>
@@ -23,14 +18,9 @@
 
     <div class="column">
       <div class="item">
-        <div class="meta"></div>
-        <div class="content">
+        <div class="content" data-content-limiter="true">
           <span class="title title--small">SLEEP &#9684;</span>
-          <span class="value value--xlarge value--tnums">{{ sleep_score }}</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
+          <span class="value value--large value--tnums">{{ sleep_score }}</span>
           <div class="flex gap--small">
             <span class="label label--small label--underline">D {{ sleep_deep_sleep }}</span>
             <span class="label label--small label--underline">R {{ sleep_rem_sleep }}</span>
@@ -42,14 +32,9 @@
 
     <div class="column">
       <div class="item">
-        <div class="meta"></div>
-        <div class="content">
+        <div class="content" data-content-limiter="true">
           <span class="title title--small">ACTIVITY &#9650;</span>
-          <span class="value value--xlarge value--tnums">{{ activity_score }}</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
+          <span class="value value--large value--tnums">{{ activity_score }}</span>
           <div class="flex gap--small">
             <span class="label label--small label--underline">BURN {{ activity_total_calories }}</span>
             <span class="label label--small label--underline">STEPS {{ activity_steps }}</span>

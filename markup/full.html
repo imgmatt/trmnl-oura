@@ -7,72 +7,40 @@
 
     <div class="column">
       <div class="item">
-        <div class="meta"></div>
-        <div class="content">
+        <div class="content" data-content-limiter="true">
           <span class="title title--small">READINESS &#9733;</span>
-          <span class="value value--xxlarge value--tnums">{{ readiness_score }}</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small value--tnums">{{ readiness_hrv_balance }}</span>
-          <span class="label label--small">HRV balance</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small value--tnums">{{ spo2_average }}</span>
-          <span class="label label--small">SpO2 average</span>
+          <span class="value value--xlarge value--tnums">{{ readiness_score }}</span>
+          <div class="flex gap--small">
+            <span class="label label--small label--underline">HRV {{ readiness_hrv_balance }}</span>
+            <span class="label label--small label--underline">SpO2 {{ spo2_average }}</span>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="column">
       <div class="item">
-        <div class="meta"></div>
-        <div class="content">
+        <div class="content" data-content-limiter="true">
           <span class="title title--small">SLEEP &#9684;</span>
-          <span class="value value--xxlarge value--tnums">{{ sleep_score }}</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small">{{ sleep_deep_sleep }}</span>
-          <span class="label label--small">Deep sleep</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small">{{ sleep_rem_sleep }}</span>
-          <span class="label label--small">REM sleep</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small">{{ sleep_light_sleep }}</span>
-          <span class="label label--small">Light sleep</span>
+          <span class="value value--xlarge value--tnums">{{ sleep_score }}</span>
+          <div class="flex gap--small">
+            <span class="label label--small label--underline">D {{ sleep_deep_sleep }}</span>
+            <span class="label label--small label--underline">R {{ sleep_rem_sleep }}</span>
+            <span class="label label--small label--underline">L {{ sleep_light_sleep }}</span>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="column">
       <div class="item">
-        <div class="meta"></div>
-        <div class="content">
+        <div class="content" data-content-limiter="true">
           <span class="title title--small">ACTIVITY &#9650;</span>
-          <span class="value value--xxlarge value--tnums">{{ activity_score }}</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small value--tnums">{{ activity_total_calories }}</span>
-          <span class="label label--small">Calories burned</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small value--tnums">{{ activity_steps }}</span>
-          <span class="label label--small">Steps</span>
+          <span class="value value--xlarge value--tnums">{{ activity_score }}</span>
+          <div class="flex gap--small">
+            <span class="label label--small label--underline">BURN {{ activity_total_calories }}</span>
+            <span class="label label--small label--underline">STEPS {{ activity_steps }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -84,53 +52,33 @@
 
     <div class="column">
       <div class="item">
-        <div class="meta"></div>
-        <div class="content">
+        <div class="content" data-content-limiter="true">
           <span class="title title--small">BODY INSIGHTS &#9670;</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small value--tnums">{{ readiness_temperature_deviation }}</span>
-          <span class="label label--small">Body temp deviation</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small value--tnums">{{ sleep_average_breath }}</span>
-          <span class="label label--small">Respiration rate</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
-          <span class="value value--small value--tnums">{{ sleep_restfulness }}</span>
-          <span class="label label--small">Restfulness</span>
+          <div class="flex gap--small">
+            <span class="label label--small label--underline">TEMP {{ readiness_temperature_deviation }}</span>
+            <span class="label label--small label--underline">RESP {{ sleep_average_breath }}</span>
+          </div>
+          <span class="label label--small label--underline">RESTFUL {{ sleep_restfulness }}</span>
         </div>
       </div>
     </div>
 
     <div class="column">
       <div class="item">
-        <div class="meta"></div>
-        <div class="content">
+        <div class="content" data-content-limiter="true">
           <span class="title title--small">HEART RATE &#9829;</span>
-          <span class="value value--xxlarge value--tnums">{{ hr_resting_hr }}</span>
-          <span class="label label--small">Resting BPM</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="content">
+          <span class="value value--xlarge value--tnums">{{ hr_resting_hr }}</span>
           <div class="flex gap--small">
+            <span class="label label--small label--underline">Resting BPM</span>
             <span class="label label--small label--underline">AVG {{ hr_avg_hr }}</span>
-            <span class="label label--small label--underline">MIN {{ hr_min_hr }}</span>
-            <span class="label label--small label--underline">MAX {{ hr_max_hr }}</span>
+            <span class="label label--small label--underline">{{ hr_min_hr }}&#8211;{{ hr_max_hr }}</span>
           </div>
+          <svg width="100%" height="36" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="{{ hr_area_path }}" fill="black" fill-opacity="0.15" stroke="none"/>
+            <path d="{{ hr_line_path }}" fill="none" stroke="black" stroke-width="1.5"/>
+          </svg>
         </div>
       </div>
-      <svg width="100%" height="48" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="{{ hr_area_path }}" fill="black" fill-opacity="0.15" stroke="none"/>
-        <path d="{{ hr_line_path }}" fill="none" stroke="black" stroke-width="1.5"/>
-      </svg>
     </div>
 
   </div>
