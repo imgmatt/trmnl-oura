@@ -5,14 +5,14 @@
   <div class="grid grid--cols-3 stretch-y">
 
     <!-- READINESS -->
-    <div class="flex flex--col flex--left p--small stretch-x">
-      <div class="flex flex--row flex--center-y gap--xsmall">
+    <div class="flex flex--col stretch-y stretch-x">
+      <div class="flex flex--row flex--center flex--center-y gap--xsmall p--small">
         <span class="title title--small">READINESS</span>
         <span class="label label--small">&#9733;</span>
       </div>
-      <div class="flex flex--row flex--center-y gap--medium mt--small">
+      <div class="flex flex--col flex--center flex--center-y stretch-y gap--small">
         <span class="value value--xlarge value--tnums">{{ readiness_score }}</span>
-        <div class="flex flex--col gap--xsmall">
+        <div class="flex flex--row gap--small">
           <span class="label label--small">HRV {{ readiness_hrv_balance }}</span>
           <span class="label label--small">SpO2 {{ spo2_average }}</span>
         </div>
@@ -20,14 +20,14 @@
     </div>
 
     <!-- SLEEP -->
-    <div class="flex flex--col flex--left p--small stretch-x">
-      <div class="flex flex--row flex--center-y gap--xsmall">
+    <div class="flex flex--col stretch-y stretch-x">
+      <div class="flex flex--row flex--center flex--center-y gap--xsmall p--small">
         <span class="title title--small">SLEEP</span>
         <span class="label label--small">&#9684;</span>
       </div>
-      <div class="flex flex--row flex--center-y gap--medium mt--small">
+      <div class="flex flex--col flex--center flex--center-y stretch-y gap--small">
         <span class="value value--xlarge value--tnums">{{ sleep_score }}</span>
-        <div class="flex flex--col gap--xsmall">
+        <div class="flex flex--row gap--small">
           <span class="label label--small">DEEP {{ sleep_deep_sleep }}</span>
           <span class="label label--small">REM {{ sleep_rem_sleep }}</span>
           <span class="label label--small">LIGHT {{ sleep_light_sleep }}</span>
@@ -36,14 +36,14 @@
     </div>
 
     <!-- ACTIVITY -->
-    <div class="flex flex--col flex--left p--small stretch-x">
-      <div class="flex flex--row flex--center-y gap--xsmall">
+    <div class="flex flex--col stretch-y stretch-x">
+      <div class="flex flex--row flex--center flex--center-y gap--xsmall p--small">
         <span class="title title--small">ACTIVITY</span>
         <span class="label label--small">&#9650;</span>
       </div>
-      <div class="flex flex--row flex--center-y gap--medium mt--small">
+      <div class="flex flex--col flex--center flex--center-y stretch-y gap--small">
         <span class="value value--xlarge value--tnums">{{ activity_score }}</span>
-        <div class="flex flex--col gap--xsmall">
+        <div class="flex flex--row gap--small">
           <span class="label label--small">BURN {{ activity_total_calories }}</span>
           <span class="label label--small">STEPS {{ activity_steps }}</span>
         </div>
