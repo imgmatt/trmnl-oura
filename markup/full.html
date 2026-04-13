@@ -5,52 +5,44 @@
   <!-- Top row: three score tiles -->
   <div class="grid grid--cols-3 stretch-y">
 
-    <div class="flex flex--col flex--top flex--center-x gap--small p--small">
-      <span class="title">READINESS &#9733;</span>
-      <span class="value value--xxlarge value--tnums">{{ readiness_score }}</span>
-      <div class="flex flex--col flex--center-x gap--xsmall">
-        <span class="label">HRV {{ readiness_hrv_balance }}</span>
-        <span class="label">SpO2 {{ spo2_average }}</span>
-        <span class="label">Temp {{ readiness_temperature_deviation }}</span>
-      </div>
+    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small">
+      <span class="title title--small">READINESS &#9733;</span>
+      <span class="value value--xlarge value--tnums">{{ readiness_score }}</span>
+      <span class="label label--small">HRV {{ readiness_hrv_balance }}</span>
+      <span class="label label--small">SpO2 {{ spo2_average }}</span>
+      <span class="label label--small">Temp {{ readiness_temperature_deviation }}</span>
     </div>
 
-    <div class="flex flex--col flex--top flex--center-x gap--small p--small">
-      <span class="title">SLEEP &#9684;</span>
-      <span class="value value--xxlarge value--tnums">{{ sleep_score }}</span>
-      <div class="flex flex--col flex--center-x gap--xsmall">
-        <span class="label">Deep {{ sleep_deep_sleep }}</span>
-        <span class="label">REM {{ sleep_rem_sleep }}</span>
-        <span class="label">Light {{ sleep_light_sleep }}</span>
-      </div>
+    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small">
+      <span class="title title--small">SLEEP &#9684;</span>
+      <span class="value value--xlarge value--tnums">{{ sleep_score }}</span>
+      <span class="label label--small">Deep {{ sleep_deep_sleep }}</span>
+      <span class="label label--small">REM {{ sleep_rem_sleep }}</span>
+      <span class="label label--small">Light {{ sleep_light_sleep }}</span>
     </div>
 
-    <div class="flex flex--col flex--top flex--center-x gap--small p--small">
-      <span class="title">ACTIVITY &#9650;</span>
-      <span class="value value--xxlarge value--tnums">{{ activity_score }}</span>
-      <div class="flex flex--col flex--center-x gap--xsmall">
-        <span class="label">Burn {{ activity_total_calories }}</span>
-        <span class="label">Steps {{ activity_steps }}</span>
-      </div>
+    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small">
+      <span class="title title--small">ACTIVITY &#9650;</span>
+      <span class="value value--xlarge value--tnums">{{ activity_score }}</span>
+      <span class="label label--small">Burn {{ activity_total_calories }}</span>
+      <span class="label label--small">Steps {{ activity_steps }}</span>
     </div>
 
   </div>
 
-  <!-- Bottom row: Heart Rate (tile on left, chart on right) -->
+  <!-- Bottom row: Heart Rate tile + chart -->
   <div class="grid grid--cols-3 stretch-y border--h-5">
 
-    <div class="flex flex--col flex--top flex--center-x gap--small p--small col--span-1">
-      <span class="title">HEART RATE &#9829;</span>
-      <span class="value value--xxlarge value--tnums">{{ hr_resting_hr }}</span>
-      <div class="flex flex--col flex--center-x gap--xsmall">
-        <span class="label">Resting BPM</span>
-        <span class="label">Avg {{ hr_avg_hr }}</span>
-        <span class="label">{{ hr_min_hr }}&#8211;{{ hr_max_hr }}</span>
-      </div>
+    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small col--span-1">
+      <span class="title title--small">HEART RATE &#9829;</span>
+      <span class="value value--xlarge value--tnums">{{ hr_resting_hr }}</span>
+      <span class="label label--small">Resting BPM</span>
+      <span class="label label--small">Avg {{ hr_avg_hr }}</span>
+      <span class="label label--small">{{ hr_min_hr }}&#8211;{{ hr_max_hr }}</span>
     </div>
 
     <div class="flex flex--col flex--center-y stretch-x p--small col--span-2">
-      <svg width="100%" height="180" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="100%" height="140" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="{{ hr_area_path }}" fill="black" fill-opacity="0.15" stroke="none"/>
         <path d="{{ hr_line_path }}" fill="none" stroke="black" stroke-width="1.5"/>
       </svg>
