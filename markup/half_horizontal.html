@@ -1,46 +1,24 @@
 <!-- TRMNL Oura Ring Dashboard — Half Horizontal (800x240) -->
 
 <div class="layout">
-  <div class="columns">
+  <div class="grid grid--cols-3 stretch-y">
 
-    <div class="column">
-      <div class="item">
-        <div class="content" data-content-limiter="true">
-          <span class="title title--small">READINESS &#9733;</span>
-          <span class="value value--large value--tnums">{{ readiness_score }}</span>
-          <div class="flex gap--small">
-            <span class="label label--small label--underline">HRV {{ readiness_hrv_balance }}</span>
-            <span class="label label--small label--underline">SpO2 {{ spo2_average }}</span>
-          </div>
-        </div>
-      </div>
+    <div class="col col--center row--center">
+      <span class="title title--small">READINESS &#9733;</span>
+      <span class="value value--xlarge value--tnums">{{ readiness_score }}</span>
+      <span class="label label--small">HRV {{ readiness_hrv_balance }} &middot; SpO2 {{ spo2_average }}</span>
     </div>
 
-    <div class="column">
-      <div class="item">
-        <div class="content" data-content-limiter="true">
-          <span class="title title--small">SLEEP &#9684;</span>
-          <span class="value value--large value--tnums">{{ sleep_score }}</span>
-          <div class="flex gap--small">
-            <span class="label label--small label--underline">D {{ sleep_deep_sleep }}</span>
-            <span class="label label--small label--underline">R {{ sleep_rem_sleep }}</span>
-            <span class="label label--small label--underline">L {{ sleep_light_sleep }}</span>
-          </div>
-        </div>
-      </div>
+    <div class="col col--center row--center">
+      <span class="title title--small">SLEEP &#9684;</span>
+      <span class="value value--xlarge value--tnums">{{ sleep_score }}</span>
+      <span class="label label--small">DEEP {{ sleep_deep_sleep }} &middot; REM {{ sleep_rem_sleep }} &middot; LIGHT {{ sleep_light_sleep }}</span>
     </div>
 
-    <div class="column">
-      <div class="item">
-        <div class="content" data-content-limiter="true">
-          <span class="title title--small">ACTIVITY &#9650;</span>
-          <span class="value value--large value--tnums">{{ activity_score }}</span>
-          <div class="flex gap--small">
-            <span class="label label--small label--underline">BURN {{ activity_total_calories }}</span>
-            <span class="label label--small label--underline">STEPS {{ activity_steps }}</span>
-          </div>
-        </div>
-      </div>
+    <div class="col col--center row--center">
+      <span class="title title--small">ACTIVITY &#9650;</span>
+      <span class="value value--xlarge value--tnums">{{ activity_score }}</span>
+      <span class="label label--small">BURN {{ activity_total_calories }} &middot; STEPS {{ activity_steps }}</span>
     </div>
 
   </div>
