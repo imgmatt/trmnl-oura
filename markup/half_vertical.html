@@ -1,65 +1,52 @@
 <!-- TRMNL Oura Ring Dashboard — Half Vertical (400x480) -->
 
-<div class="layout layout--col gap--none">
+<div class="layout">
 
-  <!-- READINESS -->
-  <div class="flex flex--col stretch-x stretch-y border--h-5">
-    <div class="flex flex--row flex--center flex--center-y gap--xsmall p--small">
-      <span class="title title--small">READINESS</span>
-      <span class="label label--small">&#9733;</span>
-    </div>
-    <div class="flex flex--col flex--center flex--center-y stretch-y gap--small">
-      <span class="value value--xlarge value--tnums">{{ readiness_score }}</span>
-      <div class="flex flex--row gap--small">
-        <span class="label label--small">HRV {{ readiness_hrv_balance }}</span>
-        <span class="label label--small">SpO2 {{ spo2_average }}</span>
+  <div class="item">
+    <div class="meta"></div>
+    <div class="content">
+      <span class="title title--small">READINESS &#9733;</span>
+      <span class="value value--large value--tnums">{{ readiness_score }}</span>
+      <div class="flex gap--small">
+        <span class="label label--small label--underline">HRV {{ readiness_hrv_balance }}</span>
+        <span class="label label--small label--underline">SpO2 {{ spo2_average }}</span>
       </div>
     </div>
   </div>
 
-  <!-- SLEEP -->
-  <div class="flex flex--col stretch-x stretch-y border--h-5">
-    <div class="flex flex--row flex--center flex--center-y gap--xsmall p--small">
-      <span class="title title--small">SLEEP</span>
-      <span class="label label--small">&#9684;</span>
-    </div>
-    <div class="flex flex--col flex--center flex--center-y stretch-y gap--small">
-      <span class="value value--xlarge value--tnums">{{ sleep_score }}</span>
-      <div class="flex flex--row gap--small">
-        <span class="label label--small">DEEP {{ sleep_deep_sleep }}</span>
-        <span class="label label--small">REM {{ sleep_rem_sleep }}</span>
-        <span class="label label--small">LIGHT {{ sleep_light_sleep }}</span>
+  <div class="item">
+    <div class="meta"></div>
+    <div class="content">
+      <span class="title title--small">SLEEP &#9684;</span>
+      <span class="value value--large value--tnums">{{ sleep_score }}</span>
+      <div class="flex gap--small">
+        <span class="label label--small label--underline">DEEP {{ sleep_deep_sleep }}</span>
+        <span class="label label--small label--underline">REM {{ sleep_rem_sleep }}</span>
+        <span class="label label--small label--underline">LIGHT {{ sleep_light_sleep }}</span>
       </div>
     </div>
   </div>
 
-  <!-- ACTIVITY -->
-  <div class="flex flex--col stretch-x stretch-y border--h-5">
-    <div class="flex flex--row flex--center flex--center-y gap--xsmall p--small">
-      <span class="title title--small">ACTIVITY</span>
-      <span class="label label--small">&#9650;</span>
-    </div>
-    <div class="flex flex--col flex--center flex--center-y stretch-y gap--small">
-      <span class="value value--xlarge value--tnums">{{ activity_score }}</span>
-      <div class="flex flex--row gap--small">
-        <span class="label label--small">BURN {{ activity_total_calories }}</span>
-        <span class="label label--small">STEPS {{ activity_steps }}</span>
+  <div class="item">
+    <div class="meta"></div>
+    <div class="content">
+      <span class="title title--small">ACTIVITY &#9650;</span>
+      <span class="value value--large value--tnums">{{ activity_score }}</span>
+      <div class="flex gap--small">
+        <span class="label label--small label--underline">BURN {{ activity_total_calories }}</span>
+        <span class="label label--small label--underline">STEPS {{ activity_steps }}</span>
       </div>
     </div>
   </div>
 
-  <!-- HEART RATE -->
-  <div class="flex flex--col stretch-x stretch-y">
-    <div class="flex flex--row flex--center flex--center-y gap--xsmall p--small">
-      <span class="title title--small">HEART RATE</span>
-      <span class="label label--small">&#9829;</span>
-    </div>
-    <div class="flex flex--col flex--center flex--center-y stretch-y gap--small">
-      <span class="value value--xlarge value--tnums">{{ hr_resting_hr }}</span>
-      <div class="flex flex--row gap--small">
-        <span class="label label--small">RESTING BPM</span>
-        <span class="label label--small">AVG {{ hr_avg_hr }}</span>
-        <span class="label label--small">{{ hr_min_hr }}&#8211;{{ hr_max_hr }}</span>
+  <div class="item">
+    <div class="meta"></div>
+    <div class="content">
+      <span class="title title--small">HEART RATE &#9829;</span>
+      <span class="value value--large value--tnums">{{ hr_resting_hr }}</span>
+      <div class="flex gap--small">
+        <span class="label label--small label--underline">AVG {{ hr_avg_hr }}</span>
+        <span class="label label--small label--underline">{{ hr_min_hr }}&#8211;{{ hr_max_hr }}</span>
       </div>
     </div>
   </div>
