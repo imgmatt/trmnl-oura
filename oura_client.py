@@ -110,12 +110,13 @@ class OuraClient:
         }
 
     def get_daily_activity(self) -> Optional[dict]:
-        # Oura's daily_activity endpoint can return 0 items for a single-day
-        # query (start == end) even when data exists, so always query a 2-day
-        # window and take the most recent `day`.
-        today = self._today().isoformat()
-        yesterday = (self._today() - timedelta(days=1)).isoformat()
-        data = self._get("daily_activity", {"start_date": yesterday, "end_date": today})
+        # Oura's daily_activity endpoint is flaky about inclusive end_date —
+        # querying up to "today" can omit today's (partial) record. Extend the
+        # window past today to coax it in, then pick the most recent `day`.
+        today = self._today()
+        start = (today - timedelta(days=1)).isoformat()
+        end = (today + timedelta(days=1)).isoformat()
+        data = self._get("daily_activity", {"start_date": start, "end_date": end})
         items = data.get("data", [])
         if not items:
             return None
