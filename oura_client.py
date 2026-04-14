@@ -142,18 +142,18 @@ class OuraClient:
         if not items:
             return None
 
-        # Find resting HR (source == "rest" or lowest BPM readings)
-        rest_readings = [r for r in items if r.get("source") == "rest"]
+        # Average resting HR across rest-source readings; fall back to the
+        # lowest 10% of all readings when no rest samples are available.
+        rest_bpms = [r["bpm"] for r in items if r.get("source") == "rest" and "bpm" in r]
         all_bpms = [r["bpm"] for r in items if "bpm" in r]
 
         resting_hr = None
-        if rest_readings:
-            resting_hr = min(r["bpm"] for r in rest_readings)
+        if rest_bpms:
+            resting_hr = round(sum(rest_bpms) / len(rest_bpms))
         elif all_bpms:
-            # Approximate resting as the 10th percentile
             sorted_bpms = sorted(all_bpms)
-            idx = max(0, len(sorted_bpms) // 10)
-            resting_hr = sorted_bpms[idx]
+            tenth = max(1, len(sorted_bpms) // 10)
+            resting_hr = round(sum(sorted_bpms[:tenth]) / tenth)
 
         avg_hr = round(sum(all_bpms) / len(all_bpms)) if all_bpms else None
         max_hr = max(all_bpms) if all_bpms else None
