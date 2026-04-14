@@ -129,7 +129,8 @@ The following variables are available in your TRMNL markup templates:
 | `sleep_rem_sleep` | 1h 50m |
 | `sleep_light_sleep` | 4h 30m |
 | `sleep_efficiency` | 92 |
-| `readiness_hrv_balance` | 86 (templates display this as "AVG HRV" — Oura's 0–100 contributor score, not raw HRV ms) |
+| `readiness_hrv_balance` | 86 (Oura's 0–100 contributor score) |
+| `sleep_average_hrv` | 42 (templates display this as "HRV" — raw average HRV in ms from the main sleep session) |
 | `sleep_average_breath` | 14.2 |
 | `activity_score` | 72 |
 | `activity_steps` | 8,432 |
