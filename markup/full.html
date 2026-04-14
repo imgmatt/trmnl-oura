@@ -37,15 +37,15 @@
 
   <!-- Slim 24-hour HR trend strip -->
   <div class="flex flex--col stretch-x p--xsmall border--h-5">
-    <svg width="100%" height="60" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="{{ hr_area_path }}" fill="black" fill-opacity="0.12" stroke="none"/>
-      <path d="{{ hr_line_path }}" fill="none" stroke="black" stroke-width="1.25"/>
-    </svg>
     <div class="flex flex--row flex--between stretch-x">
       <span class="label label--small">{{ hr_chart_start }}</span>
       <span class="label label--small">Heart rate over the last 24 hours (bpm)</span>
       <span class="label label--small">{{ hr_chart_end }}</span>
     </div>
+    <svg width="100%" height="60" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="{{ hr_area_path }}" fill="black" fill-opacity="0.12" stroke="none"/>
+      <path d="{{ hr_line_path }}" fill="none" stroke="black" stroke-width="1.25"/>
+    </svg>
   </div>
 
 </div>
