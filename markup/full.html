@@ -1,53 +1,61 @@
 <!-- TRMNL Oura Ring Dashboard — Full (800x480) -->
 
-<div class="layout layout--col gap--none">
+<div class="layout layout--col gap--small">
 
-  <!-- Top row: three score tiles -->
-  <div class="grid grid--cols-3 stretch-y">
-
-    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small">
-      <span class="title title--small">READINESS &#9733;</span>
-      <span class="value value--xlarge value--tnums">{{ readiness_score }}</span>
-      <span class="label label--small">HRV {{ sleep_average_hrv }}</span>
-      <span class="label label--small">SpO2 {{ spo2_average }}</span>
-      <span class="label label--small">Temp {{ readiness_temperature_deviation }}</span>
+  <!-- Top row: three score tiles as native items -->
+  <div class="columns">
+    <div class="column">
+      <div class="item item--emphasis-1">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="title title--small">READINESS &#9733;</span>
+          <span class="value value--tnums">{{ readiness_score }}</span>
+          <span class="label label--small">HRV {{ sleep_average_hrv }} &middot; SpO2 {{ spo2_average }} &middot; Temp {{ readiness_temperature_deviation }}</span>
+        </div>
+      </div>
     </div>
-
-    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small">
-      <span class="title title--small">SLEEP &#9684;</span>
-      <span class="value value--xlarge value--tnums">{{ sleep_score }}</span>
-      <span class="label label--small">Deep {{ sleep_deep_sleep }}</span>
-      <span class="label label--small">REM {{ sleep_rem_sleep }}</span>
-      <span class="label label--small">Light {{ sleep_light_sleep }}</span>
+    <div class="column">
+      <div class="item item--emphasis-1">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="title title--small">SLEEP &#9684;</span>
+          <span class="value value--tnums">{{ sleep_score }}</span>
+          <span class="label label--small">{{ sleep_total_sleep }} &middot; Deep {{ sleep_deep_sleep }} &middot; REM {{ sleep_rem_sleep }}</span>
+        </div>
+      </div>
     </div>
-
-    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small">
-      <span class="title title--small">ACTIVITY &#9650;</span>
-      <span class="value value--xlarge value--tnums">{{ activity_score }}</span>
-      <span class="label label--small">Burn {{ activity_total_calories }}</span>
-      <span class="label label--small">Steps {{ activity_steps }}</span>
+    <div class="column">
+      <div class="item item--emphasis-1">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="title title--small">ACTIVITY &#9650;</span>
+          <span class="value value--tnums">{{ activity_score }}</span>
+          <span class="label label--small">{{ activity_steps }} steps &middot; {{ activity_active_calories }} kcal burn</span>
+        </div>
+      </div>
     </div>
-
   </div>
 
-  <!-- Bottom row: Heart Rate tile + chart -->
-  <div class="grid grid--cols-3 stretch-y border--h-5">
-
-    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small col--span-1">
-      <span class="title title--small">HEART RATE &#9829;</span>
-      <span class="value value--xlarge value--tnums">{{ hr_resting_hr }}</span>
-      <span class="label label--small">Resting BPM</span>
-      <span class="label label--small">Avg {{ hr_avg_hr }}</span>
-      <span class="label label--small">{{ hr_min_hr }}&#8211;{{ hr_max_hr }}</span>
+  <!-- Bottom row: heart rate tile + 24h chart -->
+  <div class="grid grid--cols-3 stretch-y">
+    <div class="col--span-1">
+      <div class="item item--emphasis-2">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="title title--small">HEART RATE &#9829;</span>
+          <span class="value value--tnums">{{ hr_resting_hr }}</span>
+          <span class="label label--small">Resting BPM</span>
+          <span class="description">Avg {{ hr_avg_hr }} &middot; {{ hr_min_hr }}&ndash;{{ hr_max_hr }} range</span>
+        </div>
+      </div>
     </div>
-
-    <div class="flex flex--col flex--center-y stretch-x p--small col--span-2">
+    <div class="col--span-2 flex flex--col flex--center-y p--small">
       <svg width="100%" height="140" viewBox="0 0 480 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="{{ hr_area_path }}" fill="black" fill-opacity="0.15" stroke="none"/>
+        <path d="{{ hr_area_path }}" fill="black" fill-opacity="0.12" stroke="none"/>
         <path d="{{ hr_line_path }}" fill="none" stroke="black" stroke-width="1.5"/>
       </svg>
+      <span class="label label--small label--underline">24-hour BPM</span>
     </div>
-
   </div>
 
 </div>

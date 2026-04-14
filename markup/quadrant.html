@@ -1,32 +1,38 @@
 <!-- TRMNL Oura Ring Dashboard — Quadrant (400x240) -->
 
 <div class="layout">
-  <div class="grid grid--cols-2 stretch-y">
-
-    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small border--h-5">
-      <span class="title title--small">READINESS &#9733;</span>
-      <span class="value value--medium value--tnums">{{ readiness_score }}</span>
-      <span class="label label--small">HRV {{ sleep_average_hrv }}</span>
+  <div class="grid grid--cols-2 gap--xsmall stretch-y">
+    <div class="item item--emphasis-1">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="title title--small">READINESS &#9733;</span>
+        <span class="value value--small value--tnums">{{ readiness_score }}</span>
+      </div>
     </div>
-
-    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small border--h-5">
-      <span class="title title--small">SLEEP &#9684;</span>
-      <span class="value value--medium value--tnums">{{ sleep_score }}</span>
-      <span class="label label--small">{{ sleep_total_sleep }}</span>
+    <div class="item item--emphasis-1">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="title title--small">SLEEP &#9684;</span>
+        <span class="value value--small value--tnums">{{ sleep_score }}</span>
+        <span class="label label--small">{{ sleep_total_sleep }}</span>
+      </div>
     </div>
-
-    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small">
-      <span class="title title--small">ACTIVITY &#9650;</span>
-      <span class="value value--medium value--tnums">{{ activity_score }}</span>
-      <span class="label label--small">{{ activity_steps }} steps</span>
+    <div class="item item--emphasis-1">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="title title--small">ACTIVITY &#9650;</span>
+        <span class="value value--small value--tnums">{{ activity_score }}</span>
+        <span class="label label--small">{{ activity_steps }} steps</span>
+      </div>
     </div>
-
-    <div class="flex flex--col flex--top flex--center-x gap--xsmall p--small">
-      <span class="title title--small">HEART RATE &#9829;</span>
-      <span class="value value--medium value--tnums">{{ hr_resting_hr }}</span>
-      <span class="label label--small">Resting BPM</span>
+    <div class="item item--emphasis-2">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="title title--small">HEART RATE &#9829;</span>
+        <span class="value value--small value--tnums">{{ hr_resting_hr }}</span>
+        <span class="label label--small">Resting BPM</span>
+      </div>
     </div>
-
   </div>
 </div>
 
