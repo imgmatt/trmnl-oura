@@ -26,7 +26,7 @@ def build_hr_line(readings, bucket_count=40):
     The SVG structure lives in the template; only numeric path data is substituted,
     which is safe from HTML-escaping.
     """
-    empty = {"hr_line_path": "", "hr_area_path": ""}
+    empty = {"hr_line_path": "", "hr_area_path": "", "hr_chart_start": "", "hr_chart_end": ""}
 
     points = []
     for r in readings or []:
@@ -91,7 +91,19 @@ def build_hr_line(readings, bucket_count=40):
     baseline_y = CHART_PAD + plot_h
     area_path = line_path + f" L{coords[-1][0]},{baseline_y} L{coords[0][0]},{baseline_y} Z"
 
-    return {"hr_line_path": line_path, "hr_area_path": area_path}
+    def _hour_label(dt):
+        local = dt.astimezone(DISPLAY_TZ)
+        return local.strftime("%I %p").lstrip("0").lower()
+
+    start_label = _hour_label(points[0][0])
+    end_label = _hour_label(points[-1][0])
+
+    return {
+        "hr_line_path": line_path,
+        "hr_area_path": area_path,
+        "hr_chart_start": start_label,
+        "hr_chart_end": end_label,
+    }
 
 
 def main():

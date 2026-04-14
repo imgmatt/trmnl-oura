@@ -156,6 +156,8 @@ The following variables are available in your TRMNL markup templates:
 | `hr_max_hr` | 145 |
 | `hr_line_path` | SVG path `d` for the HR line |
 | `hr_area_path` | SVG path `d` for the filled area under the line |
+| `hr_chart_start` | 10 pm (local-time label for the earliest reading on the chart) |
+| `hr_chart_end` | 9 pm (local-time label for the most recent reading on the chart) |
 
 ### Meta
 
