@@ -187,13 +187,19 @@ def main():
 
     if data["heart_rate"]:
         readings = data["heart_rate"].get("readings", [])
-        for k, v in data["heart_rate"].items():
+        hr_values = dict(data["heart_rate"])
+        # Prefer the sleep session's `average_heart_rate` (Oura's integrated
+        # resting HR) over a value computed from raw samples.
+        sleep_avg_hr = (data["sleep"] or {}).get("average_heart_rate")
+        if sleep_avg_hr is not None:
+            hr_values["resting_hr"] = round(sleep_avg_hr)
+        for k, v in hr_values.items():
             if k == "readings":
                 continue
             merge_vars[f"hr_{k}"] = v if v is not None else "--"
         # Add unit labels
         for field in ["resting_hr", "avg_hr", "max_hr", "min_hr"]:
-            val = data["heart_rate"].get(field)
+            val = hr_values.get(field)
             if val is not None:
                 merge_vars[f"hr_{field}_display"] = f"{val} bpm"
             else:

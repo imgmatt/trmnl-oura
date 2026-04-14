@@ -82,6 +82,8 @@ class OuraClient:
             result["light_sleep"] = _seconds_to_hm(s.get("light_sleep_duration"))
             result["average_hrv"] = s.get("average_hrv")
             result["average_breath"] = s.get("average_breath")
+            result["average_heart_rate"] = s.get("average_heart_rate")
+            result["lowest_heart_rate"] = s.get("lowest_heart_rate")
 
         return result
 
@@ -142,8 +144,8 @@ class OuraClient:
         if not items:
             return None
 
-        # Average resting HR across rest-source readings; fall back to the
-        # lowest 10% of all readings when no rest samples are available.
+        # Fallback resting HR from raw samples; main.py prefers the sleep
+        # session's `average_heart_rate` when available.
         rest_bpms = [r["bpm"] for r in items if r.get("source") == "rest" and "bpm" in r]
         all_bpms = [r["bpm"] for r in items if "bpm" in r]
 
