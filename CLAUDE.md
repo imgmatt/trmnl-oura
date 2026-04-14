@@ -16,8 +16,12 @@ Fetches Oura Ring data on a schedule (GitHub Actions, every 15 min) and pushes m
 ### TRMNL 2KB merge_variables limit
 The `POST https://trmnl.com/api/custom_plugins/{uuid}` endpoint returns HTTP 422 if the JSON `merge_variables` body exceeds ~2KB. `main.py` has a guard that measures payload size and progressively shrinks the HR chart bucket count (40 → 30 → 20 → 12) before dropping the chart entirely. Preserve this guard when adding new merge variables, and don't add large strings without accounting for the ceiling.
 
-### Oura `daily_activity` single-day query quirk
-Querying `daily_activity` with `start_date == end_date` can return 0 items *even when the day has data*. Always use a 2-day window (`yesterday` → `today`) and pick the most recent `day`. Other daily_* endpoints (sleep, readiness, spo2) have not shown this issue, but if a similar "empty when data exists" pattern appears, widen the window.
+### Oura `daily_activity` query window quirk
+`daily_activity` is flaky about which records it returns for narrow windows:
+- `start_date == end_date` can return 0 items even when the day has data.
+- `yesterday → today` can omit today's (partial) record, leaving only yesterday — so the display shows stale steps/calories.
+
+Always query `yesterday → today+1` and pick the most recent `day`. Other daily_* endpoints haven't shown this issue, but if a similar "empty/stale when data exists" pattern appears, widen the window past the target date.
 
 ### Oura `sleep` endpoint includes naps
 The `sleep` endpoint returns every sleep session — naps, rests, and the main nightly session. Picking the last item can give you a nap with tiny durations and no HRV/breath data. Filter to `type == "long_sleep"` and pick the longest; fall back to the longest session of any type.
