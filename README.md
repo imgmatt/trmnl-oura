@@ -6,8 +6,8 @@ Display your [Oura Ring](https://ouraring.com) health data on a [TRMNL](https://
 
 The **full** layout shows a two-row dashboard:
 
-- **Top row** — Readiness, Sleep, and Activity scores with key contributor stats
-- **Bottom row** — Body Insights (temperature, respiration, restlessness) and Heart Rate (resting/average/range plus a 24-hour line chart of BPM over time)
+- **Top row** — Readiness, Sleep, and Activity scores with key contributor stats (HRV, SpO2, temp deviation, sleep stages, calories, steps)
+- **Bottom row** — Heart Rate tile (resting/average/range) alongside a 24-hour line chart of BPM over time
 
 Three additional layouts are included for TRMNL mashups:
 
@@ -123,15 +123,19 @@ The following variables are available in your TRMNL markup templates:
 | `readiness_temperature_deviation` | +0.2° |
 | `readiness_recovery_index` | 90 |
 | `readiness_sleep_balance` | 85 |
+| `readiness_resting_heart_rate` | 88 (Oura's 0–100 contributor score) |
 | `sleep_score` | 85 |
 | `sleep_total_sleep` | 7h 42m |
 | `sleep_deep_sleep` | 1h 20m |
 | `sleep_rem_sleep` | 1h 50m |
 | `sleep_light_sleep` | 4h 30m |
 | `sleep_efficiency` | 92 |
+| `sleep_restfulness` | 78 |
 | `readiness_hrv_balance` | 86 (Oura's 0–100 contributor score) |
 | `sleep_average_hrv` | 42 (templates display this as "HRV" — raw average HRV in ms from the main sleep session) |
 | `sleep_average_breath` | 14.2 |
+| `sleep_average_heart_rate` | 63 (raw avg HR in bpm during the main sleep session) |
+| `sleep_lowest_heart_rate` | 58 (lowest HR in bpm during the main sleep session) |
 | `activity_score` | 72 |
 | `activity_steps` | 8,432 |
 | `activity_total_calories` | 2,100 |
@@ -139,13 +143,15 @@ The following variables are available in your TRMNL markup templates:
 | `activity_high_activity_time` | 45m |
 | `activity_medium_activity_time` | 1h 20m |
 | `activity_low_activity_time` | 3h 15m |
+| `activity_sedentary_time` | 6h 09m |
+| `activity_equivalent_walking_distance` | 10,144 (meters) |
 | `spo2_average` | 97.5% |
 
 ### Heart rate
 
 | Variable | Example |
 |---|---|
-| `hr_resting_hr` | 58 |
+| `hr_resting_hr` | 58 (sourced from the main sleep session's `average_heart_rate` — Oura's integrated resting HR — falling back to a computed value from rest-source samples) |
 | `hr_resting_hr_display` | 58 bpm |
 | `hr_avg_hr` | 72 |
 | `hr_avg_hr_display` | 72 bpm |
