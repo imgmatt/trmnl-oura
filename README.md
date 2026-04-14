@@ -4,16 +4,13 @@ Display your [Oura Ring](https://ouraring.com) health data on a [TRMNL](https://
 
 ## Layout
 
-The **full** layout shows a two-row dashboard:
-
-- **Top row** — Readiness, Sleep, and Activity scores with key contributor stats (HRV, SpO2, temp deviation, sleep stages, calories, steps)
-- **Bottom row** — Heart Rate tile (resting/average/range) alongside a 24-hour line chart of BPM over time
+The **full** layout shows four score tiles of equal weight — Readiness, Sleep, Activity, and Heart Rate — with a slim 24-hour BPM trend strip underneath.
 
 Three additional layouts are included for TRMNL mashups:
 
-- `half_horizontal.html` (800×240) — single row: Readiness / Sleep / Activity
-- `half_vertical.html` (400×480) — stacked: Readiness, Sleep, Activity, Heart Rate
-- `quadrant.html` (400×240) — 2×2 grid with just the four main scores
+- `half_horizontal.html` (800×240) — four score tiles in one row (Readiness, Sleep, Activity, Heart Rate)
+- `half_vertical.html` (400×480) — 2×2 grid of Readiness, Sleep, Activity, Heart Rate
+- `quadrant.html` (400×240) — four compact score-only tiles in one row
 
 ## Setup
 
